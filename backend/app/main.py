@@ -1,15 +1,17 @@
-from fastapi import FastAPI, Depends, Query
+from contextlib import asynccontextmanager
+from fastapi import FastAPI, Depends
 from sqlmodel import Session, select
 from app.db.session import create_db_and_tables, get_session
 from app.models.user import User
 from app.core.config import settings
 
-app = FastAPI(title=settings.APP_NAME)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await create_db_and_tables()
+    yield
 
 
-@app.on_event("startup")
-def on_startup():
-    create_db_and_tables()
+app = FastAPI(title=settings.APP_NAME, lifespan=lifespan)
 
 
 @app.get("/")
