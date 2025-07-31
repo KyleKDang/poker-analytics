@@ -7,7 +7,7 @@ from app.core.config import settings
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    await create_db_and_tables()
+    create_db_and_tables()
     yield
 
 
