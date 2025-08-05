@@ -1,13 +1,25 @@
 FROM python:3.11-slim
 
+# Set environment variables
+ENV POETRY_VERSION=1.8.2 \
+    POETRY_VIRTUALENVS_CREATE=false \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
 # Set working directory
 WORKDIR /app
 
-# Install dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Install Poetry
+RUN pip install --upgrade pip && \
+    pip install poetry==$POETRY_VERSION
 
-# Copy app code
+# Copy only dependency files first
+COPY pyproject.toml poetry.lock ./
+
+# Install dependencies
+RUN poetry install --no-interaction --no-ansi
+
+# Copy the full app code
 COPY . .
 
 # Expose FastAPI port
