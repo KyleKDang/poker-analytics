@@ -56,7 +56,7 @@ def evaluate_five_card_hand(cards: List[Card]) -> dict:
     is_straight = False
     straight_high = None
 
-    for i in range(len(rank_indices) - 4 + 1):
+    for i in range(len(rank_indices) - 4):
         window = rank_indices[i:i+5]
         if all(window[j] - 1 == window[j+1] for j in range(4)):
             is_straight = True
