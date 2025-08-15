@@ -1,6 +1,6 @@
 from itertools import combinations
 from collections import Counter
-from typing import List
+from typing import List, Dict
 from .card import Card, RANK_ORDER
 
 HAND_RANKS = {
@@ -16,12 +16,12 @@ HAND_RANKS = {
     "Royal Flush": 10
 }
 
-def evaluate_five_card_hand(cards: List[Card]) -> dict:
+def evaluate_five_card_hand(cards: List[Card]) -> Dict:
     """
-    Evaluate the best poker hand from exactly five cards.
+    Evaluate the best poker hand from 5 cards.
 
     Args:
-        cards (List[Card]): A list of 5 Card objects representing a poker hand.
+        cards (List[Card]): A list of 5 Card objects.
 
     Returns:
         dict: A dictionary containing:
@@ -166,3 +166,35 @@ def evaluate_five_card_hand(cards: List[Card]) -> dict:
         "rank": HAND_RANKS["High Card"],
         "kickers": kickers
     }
+
+
+def evaluate_seven_card_hand(cards: List[Card]) -> Dict:
+    """
+    Evaluate the best 5-card hand from 7 cards.
+
+    Args:
+        cards (List[Card]): A list of 7 Card objects.
+
+    Returns:
+        dict: A dictionary containing:
+            - 'label' (str): The name of the hand (e.g., "Flush", "Two Pair").
+            - 'rank' (int): The hand's rank value (higher means stronger hand).
+            - 'kickers' (List[int]): A list of rank indices used as tie-breakers,
+              ordered by their significance.
+    """
+    if len(cards) != 7:
+        raise ValueError(f"Expected 7 cards, got {len(cards)}")
+    
+    best_hand = None
+
+    for combo in combinations(cards, 5):
+        current = evaluate_five_card_hand(list(combo))
+
+        # Compare by rank first, then by kicker list
+        if (not best_hand or
+            current["rank"] > best_hand["rank"] or
+            (current["rank"] == best_hand["rank"] and 
+             current["kickers"] > best_hand["kickers"])):
+            best_hand = current
+
+    return best_hand
