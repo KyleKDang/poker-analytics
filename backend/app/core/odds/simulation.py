@@ -6,22 +6,24 @@ from ..evaluator.hand import evaluate_seven_card_hand
 
 
 def simulate_chunk(
-        hole_cards: List[str], 
-        board_cards: List[str], 
+        hole_cards: List[Card], 
+        board_cards: List[Card], 
         num_opponents: int, 
         simulations: int
 ) -> Tuple[int, int]:
     """
-    Run a chunk of Monte Carlo poker simulations and return win/tie counts.
+    Run a chunk of Monte Carlo simulations and return (wins, ties).
+
+    All cards are Card objects; no string conversion happens here.
 
     Args:
-        hole_cards (List[str]): Player's 2 hole cards (e.g., ["AS", "KH"]).
-        board_cards (List[str]): Current community cards (0-5 cards).
-        num_opponents (int): Number of opponents to simulate against.
-        simulations (int): Number of random simulations to run.
+        hole_cards: 2 Card objects
+        board_cards: 0-5 Card objects
+        num_opponents: number of opponents
+        simulations: how many iterations to run
 
     Returns:
-        Tuple[int, int]: A tuple (wins, ties) across all simulations.
+        Tuple[int, int]: wins and ties
     """
     # Build known and remaining deck
     known = set(hole_cards + board_cards)
@@ -29,7 +31,7 @@ def simulate_chunk(
         Card(rank + suit) 
         for rank in RANK_ORDER 
         for suit in SUITS 
-        if rank + suit not in known
+        if Card(rank + suit) not in known
     ]
 
     wins, ties = 0, 0
@@ -39,20 +41,16 @@ def simulate_chunk(
 
         # Fill in missing community cards
         missing_board = 5 - len(board_cards)
-        current_board = [Card(c) for c in board_cards] + deck[:missing_board]
+        full_board = board_cards + deck[:missing_board]
 
         # Deal opponent hands
-        opponents_hands = []
         idx = missing_board
-        for _ in range(num_opponents):
-            opponents_hands.append(deck[idx:idx+2])
-            idx += 2
+        opponents_hands = [deck[idx + i*2: idx + i*2 + 2] for i in range(num_opponents)]
 
         # Evaluate hands
-        player_cards = [Card(c) for c in hole_cards] + current_board
-        player_score = evaluate_seven_card_hand(player_cards)
+        player_score = evaluate_seven_card_hand(hole_cards + full_board)
         opponents_scores = [
-            evaluate_seven_card_hand(opp + current_board) for opp in opponents_hands
+            evaluate_seven_card_hand(opp + full_board) for opp in opponents_hands
         ]
 
         # Compare by rank then kickers
