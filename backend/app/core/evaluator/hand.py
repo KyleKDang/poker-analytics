@@ -191,10 +191,12 @@ def evaluate_seven_card_hand(cards: List[Card]) -> Dict:
         current = evaluate_five_card_hand(list(combo))
 
         # Compare by rank first, then by kicker list
-        if (not best_hand or
-            current["rank"] > best_hand["rank"] or
-            (current["rank"] == best_hand["rank"] and 
-             current["kickers"] > best_hand["kickers"])):
+        if (
+            not best_hand or 
+            (current["rank"], tuple(current["kickers"])) > 
+            (best_hand["rank"], best_hand["kickers"])
+        ):
             best_hand = current
+            best_hand["kickers"] = tuple(current["kickers"])
 
     return best_hand
