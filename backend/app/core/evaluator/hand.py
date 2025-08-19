@@ -1,7 +1,7 @@
 from itertools import combinations
 from collections import Counter
 from typing import List, Dict
-from .card import Card, RANK_ORDER
+from ..models.card import Card, RANK_ORDER
 
 HAND_RANKS = {
     "High Card": 1,

@@ -1,6 +1,6 @@
 import random
 from typing import List, Tuple
-from ..evaluator.card import Card, RANK_ORDER, SUITS
+from ..models.card import Card, RANK_ORDER, SUITS
 from ..evaluator.hand import evaluate_seven_card_hand
 
 
