@@ -34,7 +34,8 @@ def calculate_odds(
                     simulate_chunk,
                     hole_cards,
                     board_cards,
-                    num_opponents
+                    num_opponents,
+                    chunk_size
                 )
             )
 
