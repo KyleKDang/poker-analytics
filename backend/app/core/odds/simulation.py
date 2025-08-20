@@ -1,7 +1,7 @@
 import random
 from typing import List, Tuple
 from ..models.card import Card, RANK_ORDER, SUITS
-from ..evaluator.hand import evaluate_seven_card_hand
+from ..evaluator.evaluator import evaluate_seven_card_hand
 
 def simulate_chunk(
         hole_cards: List[Card], 

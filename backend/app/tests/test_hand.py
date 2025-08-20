@@ -1,5 +1,5 @@
 import pytest
-from app.core.evaluator.hand import evaluate_five_card_hand, evaluate_seven_card_hand, HAND_RANKS
+from app.core.evaluator.evaluator import evaluate_five_card_hand, evaluate_seven_card_hand, HAND_RANKS
 from app.core.models.card import Card
 
 def make_hand(codes):
