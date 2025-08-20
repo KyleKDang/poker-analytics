@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Depends
 from sqlmodel import Session, select
+from app.api.routes import router
 from app.db.session import create_db_and_tables, get_session
 from app.models.user import User
 from app.core.config import settings
@@ -12,6 +13,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title=settings.APP_NAME, lifespan=lifespan)
+app.include_router(router)
 
 
 @app.get("/")
