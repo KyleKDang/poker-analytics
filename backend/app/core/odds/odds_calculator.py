@@ -1,28 +1,22 @@
 import concurrent.futures
-from typing import List, Dict
 from .simulation import simulate_chunk
 from ..models.card import Card
 
 
 def calculate_odds(
-    hole_cards: List[Card],
-    board_cards: List[Card],
+    hole_cards: list[Card],
+    board_cards: list[Card],
     num_opponents: int,
-    simulations: int = 10000,
+    simulations: int = 10_000,
     workers: int = 4,
-) -> Dict[str, float]:
+) -> dict[str, float]:
     """
-    Orchestrate Monte Carlo poker odds calculation using concurrency.
+    Calculate poker winning odds using Monte Carlo simulation with concurrency.
 
-    Args:
-        hole_cards (List[Card]): Player's 2 hole cards.
-        board_cards (List[Card]): Current community cards (0-5).
-        num_opponents (int): Number of opponents.
-        simulations (int): Total number of simulations.
-        workers (int): Number of worker processes/threads.
-
-    Returns:
-        Dict[str, float]: {"win": float, "tie": float, "loss": float}
+    Returns a dictionary with:
+        - win (float): Probability of winning.
+        - tie (float): Probability of tying.
+        - loss (float): Probability of losing.
     """
     chunk_size = simulations // workers
     futures = []
