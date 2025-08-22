@@ -1,25 +1,20 @@
 import random
-from typing import List, Tuple
 from ..models.card import Card, RANK_ORDER, SUITS
 from ..evaluator.evaluator import evaluate_seven_card_hand
 
+
 def simulate_chunk(
-        hole_cards: List[Card], 
-        board_cards: List[Card], 
-        num_opponents: int, 
-        simulations: int
-) -> Tuple[int, int]:
+    hole_cards: list[Card], 
+    board_cards: list[Card], 
+    num_opponents: int, 
+    simulations: int
+) -> tuple[int, int]:
     """
-    Run a Monte Carlo simulation chunk for poker odds.
+    Run a Monte Carlo simulation chunk to estimate poker winning odds.
 
-    Args:
-        hole_cards (List[Card]): Player's 2 hole cards.
-        board_cards (List[Card]): Current community cards (0-5).
-        num_opponents (int): Number of opponents in the hand.
-        simulations (int): Number of simulations to run in this chunk.
-
-    Returns:
-        Tuple[int, int]: (wins, ties) for the player across all simulations.
+    Returns a tuple with:
+        - wins (int): Number of simulations the player won.
+        - ties (int): Number of simulations the player tied.
     """
     # Build known and remaining deck
     known = set(hole_cards + board_cards)
