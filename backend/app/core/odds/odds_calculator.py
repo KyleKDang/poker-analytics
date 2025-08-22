@@ -1,4 +1,5 @@
 import concurrent.futures
+
 from .simulation import simulate_chunk
 from ..models.card import Card
 

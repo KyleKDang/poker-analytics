@@ -1,6 +1,7 @@
 from app.core.models.card import Card
 from app.core.odds.odds_calculator import calculate_odds
 
+
 def test_deterministic_win():
     """
     Player has Four Aces already on the board.
