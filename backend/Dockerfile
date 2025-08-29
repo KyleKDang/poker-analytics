@@ -17,7 +17,7 @@ RUN pip install --upgrade pip && \
 COPY pyproject.toml poetry.lock ./
 
 # Install dependencies
-RUN poetry install --no-interaction --no-ansi
+RUN poetry install --no-interaction --no-ansi --with dev
 
 # Copy the full app code
 COPY . .

@@ -1,10 +1,10 @@
 from datetime import datetime, timezone
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
+if TYPE_CHECKING:
+    from .hand import Hand
+    from .user import User
 
 from sqlmodel import SQLModel, Field, Relationship
-
-from .user import User
-from .hand import Hand
 
 
 class Session(SQLModel, table=True):
@@ -14,5 +14,5 @@ class Session(SQLModel, table=True):
     end_time: Optional[datetime] = None
     notes: Optional[str] = None
 
-    user: Optional[User] = Relationship(back_populates="sessions")
+    user: Optional["User"] = Relationship(back_populates="sessions")
     hands: list["Hand"] = Relationship(back_populates="session")

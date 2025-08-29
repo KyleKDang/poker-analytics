@@ -1,9 +1,9 @@
 from datetime import datetime, timezone
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
+if TYPE_CHECKING:
+    from .session import Session
 
 from sqlmodel import SQLModel, Field, Relationship
-
-from .session import Session
 
 
 class User(SQLModel, table=True):
