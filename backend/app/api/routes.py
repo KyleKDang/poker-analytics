@@ -14,7 +14,7 @@ def _parse_cards(cards: list[str]) -> list[Card]:
     return [Card(c) for c in cards]
 
 
-@router.post("/evaluate-hand")
+@router.post("/hands/evaluation")
 def evaluate_hand(request: EvaluateHandRequest) -> dict[str, str | int]:
     """
     Evaluate the best 5-card poker hand from the player's hole cards and board cards.
@@ -31,7 +31,7 @@ def evaluate_hand(request: EvaluateHandRequest) -> dict[str, str | int]:
     }
 
 
-@router.post("/calculate-odds")
+@router.post("/hands/odds")
 def calculate_odds(request: CalculateOddsRequest) -> dict[str, float]:
     """
     Calculate winning odds for the given hole cards and board state.
