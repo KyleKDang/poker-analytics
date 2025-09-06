@@ -35,10 +35,6 @@ def health_check(session: Session = Depends(get_session)):
 
 
 @app.get("/users")
-def get_users(
-    session: Session = Depends(get_session), 
-    skip: int = 0, 
-    limit: int = 10
-):
+def get_users(session: Session = Depends(get_session), skip: int = 0, limit: int = 10):
     users = session.exec(select(User).offset(skip).limit(limit)).all()
     return users

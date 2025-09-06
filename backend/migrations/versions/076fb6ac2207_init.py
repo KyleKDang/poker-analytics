@@ -5,6 +5,7 @@ Revises: 08d718bdacc8
 Create Date: 2025-08-29 20:12:10.318891
 
 """
+
 from typing import Sequence, Union
 
 from alembic import op
@@ -13,8 +14,8 @@ import sqlmodel
 
 
 # revision identifiers, used by Alembic.
-revision: str = '076fb6ac2207'
-down_revision: Union[str, Sequence[str], None] = '08d718bdacc8'
+revision: str = "076fb6ac2207"
+down_revision: Union[str, Sequence[str], None] = "08d718bdacc8"
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 

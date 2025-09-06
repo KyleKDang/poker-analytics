@@ -26,11 +26,7 @@ def calculate_odds(
         for _ in range(workers):
             futures.append(
                 executor.submit(
-                    simulate_chunk,
-                    hole_cards,
-                    board_cards,
-                    num_opponents,
-                    chunk_size
+                    simulate_chunk, hole_cards, board_cards, num_opponents, chunk_size
                 )
             )
 
@@ -43,8 +39,4 @@ def calculate_odds(
     total = chunk_size * workers
     losses = total - wins - ties
 
-    return {
-        "win": wins / total,
-        "tie": ties / total,
-        "loss": losses / total
-    }
+    return {"win": wins / total, "tie": ties / total, "loss": losses / total}

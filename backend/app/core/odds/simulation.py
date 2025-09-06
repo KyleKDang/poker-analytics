@@ -5,10 +5,10 @@ from ..evaluator.evaluator import evaluate_seven_card_hand
 
 
 def simulate_chunk(
-    hole_cards: list[Card], 
-    board_cards: list[Card], 
-    num_opponents: int, 
-    simulations: int
+    hole_cards: list[Card],
+    board_cards: list[Card],
+    num_opponents: int,
+    simulations: int,
 ) -> tuple[int, int]:
     """
     Run a Monte Carlo simulation chunk to estimate poker winning odds.
@@ -20,9 +20,9 @@ def simulate_chunk(
     # Build known and remaining deck
     known = set(hole_cards + board_cards)
     deck = [
-        Card(rank + suit) 
-        for rank in RANK_ORDER 
-        for suit in SUITS 
+        Card(rank + suit)
+        for rank in RANK_ORDER
+        for suit in SUITS
         if Card(rank + suit) not in known
     ]
 
@@ -37,7 +37,9 @@ def simulate_chunk(
 
         # Deal opponent hands
         idx = missing_board
-        opponents_hands = [deck[idx + i*2: idx + i*2 + 2] for i in range(num_opponents)]
+        opponents_hands = [
+            deck[idx + i * 2 : idx + i * 2 + 2] for i in range(num_opponents)
+        ]
 
         # Evaluate hands
         player_score = evaluate_seven_card_hand(hole_cards + full_board)
@@ -46,18 +48,15 @@ def simulate_chunk(
         ]
 
         # Compare by rank then kickers
-        max_opponent = max(
-            opponents_scores,
-            key=lambda s: (s["rank"], s["kickers"])
-        )
-        if (
-            (player_score["rank"], player_score["kickers"]) > 
-            (max_opponent["rank"], max_opponent["kickers"])
+        max_opponent = max(opponents_scores, key=lambda s: (s["rank"], s["kickers"]))
+        if (player_score["rank"], player_score["kickers"]) > (
+            max_opponent["rank"],
+            max_opponent["kickers"],
         ):
             wins += 1
-        elif (
-            (player_score["rank"], player_score["kickers"]) ==
-            (max_opponent["rank"], max_opponent["kickers"])
+        elif (player_score["rank"], player_score["kickers"]) == (
+            max_opponent["rank"],
+            max_opponent["kickers"],
         ):
             ties += 1
 

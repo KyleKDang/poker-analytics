@@ -25,10 +25,7 @@ def evaluate_hand(request: EvaluateHandRequest) -> dict[str, str | int]:
     """
     all_cards = _parse_cards(request.hole_cards) + _parse_cards(request.board_cards)
     result = evaluate_seven_card_hand(all_cards)
-    return {
-        "hand": result["label"],
-        "rank": result["rank"]
-    }
+    return {"hand": result["label"], "rank": result["rank"]}
 
 
 @router.post("/hands/odds")

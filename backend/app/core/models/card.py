@@ -17,13 +17,13 @@ class Card:
     def rank_value(self) -> int:
         """Return the numerical index of the card's rank."""
         return RANK_ORDER.index(self.rank)
-    
+
     def __repr__(self) -> str:
         return self.code
-    
+
     def __hash__(self) -> int:
         return hash(self.code)
-    
+
     def __eq__(self, other: object) -> bool:
         return isinstance(other, Card) and self.code == other.code
 

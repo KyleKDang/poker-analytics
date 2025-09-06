@@ -1,5 +1,6 @@
 from datetime import datetime, timezone
 from typing import Optional, TYPE_CHECKING
+
 if TYPE_CHECKING:
     from .hand import Hand
     from .user import User

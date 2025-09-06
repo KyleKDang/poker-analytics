@@ -1,5 +1,6 @@
 from datetime import datetime, timezone
 from typing import Optional, TYPE_CHECKING
+
 if TYPE_CHECKING:
     from .session import Session
 
@@ -12,13 +13,9 @@ class Hand(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     session_id: int = Field(foreign_key="session.id")
 
-    hole_cards: list[str] = Field(
-        sa_column=Column(ARRAY(String)), 
-        default_factory=list
-    )
+    hole_cards: list[str] = Field(sa_column=Column(ARRAY(String)), default_factory=list)
     board_cards: list[str] = Field(
-        sa_column=Column(ARRAY(String)), 
-        default_factory=list
+        sa_column=Column(ARRAY(String)), default_factory=list
     )
 
     result: str
