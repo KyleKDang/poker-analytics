@@ -19,7 +19,7 @@ async_session_maker = sessionmaker(
 
 # Dependency for FastAPI routes
 async def get_session():
-    async with async_session_maker as session:
+    async with async_session_maker() as session:
         yield session
 
 
