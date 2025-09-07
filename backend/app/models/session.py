@@ -1,11 +1,11 @@
 from datetime import datetime, timezone
 from typing import Optional, TYPE_CHECKING
 
+from sqlmodel import SQLModel, Field, Relationship
+
 if TYPE_CHECKING:
     from .hand import Hand
     from .user import User
-
-from sqlmodel import SQLModel, Field, Relationship
 
 
 class Session(SQLModel, table=True):

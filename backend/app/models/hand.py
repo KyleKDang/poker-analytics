@@ -1,12 +1,12 @@
 from datetime import datetime, timezone
 from typing import Optional, TYPE_CHECKING
 
-if TYPE_CHECKING:
-    from .session import Session
-
 from sqlalchemy import Column, String
 from sqlalchemy.dialects.postgresql import ARRAY
 from sqlmodel import SQLModel, Field, Relationship
+
+if TYPE_CHECKING:
+    from .session import Session
 
 
 class Hand(SQLModel, table=True):
