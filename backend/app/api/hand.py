@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from .schema import EvaluateHandRequest, CalculateOddsRequest
+from .schemas.hand import EvaluateHandRequest, CalculateOddsRequest
 from app.core.evaluator.evaluator import evaluate_seven_card_hand
 from app.core.odds.odds_calculator import calculate_odds as calculate_odds_core
 from app.core.models.card import Card
