@@ -2,9 +2,9 @@ from fastapi import APIRouter, HTTPException, status, Depends
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
+from app.api.schemas.session import SessionCreate, SessionRead
 from app.models.session import Session as PokerSession
 from app.db.session import get_db_session
-from .schemas.session import SessionCreate, SessionRead
 
 
 router = APIRouter(prefix="/sessions", tags=["sessions"])
