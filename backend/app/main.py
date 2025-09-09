@@ -1,7 +1,8 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Depends
-from sqlmodel import Session, select
+from sqlmodel import select
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.api.routes import hand, session
 from app.db.session import create_db_and_tables, get_db_session
@@ -11,7 +12,7 @@ from app.core.config import settings
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    create_db_and_tables()
+    await create_db_and_tables()
     yield
 
 
@@ -26,18 +27,10 @@ def read_root():
 
 
 @app.get("/health")
-def health_check(session: Session = Depends(get_db_session)):
+async def health_check(db: AsyncSession = Depends(get_db_session)):
     try:
-        session.exec(select(User).limit(1)).first()
+        await db.exec(select(1))
         db_status = "connected"
     except Exception:
         db_status = "disconnected"
     return {"status": "healthy", "database": db_status}
-
-
-@app.get("/users")
-def get_users(
-    session: Session = Depends(get_db_session), skip: int = 0, limit: int = 10
-):
-    users = session.exec(select(User).offset(skip).limit(limit)).all()
-    return users

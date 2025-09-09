@@ -1,6 +1,7 @@
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import SQLModel
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.core.config import settings
 
@@ -9,7 +10,7 @@ from app.core.config import settings
 engine = create_async_engine(settings.DATABASE_URL, echo=settings.DEBUG, future=True)
 
 # Session factory
-async_session_maker = sessionmaker(
+async_session = sessionmaker(
     bind=engine,
     class_=AsyncSession,
     expire_on_commit=False,
@@ -19,7 +20,7 @@ async_session_maker = sessionmaker(
 
 # Dependency for FastAPI routes
 async def get_db_session():
-    async with async_session_maker() as session:
+    async with async_session() as session:
         yield session
 
 
