@@ -15,9 +15,8 @@ async def get_users(
     skip: int = 0, limit: int = 10, db: AsyncSession = Depends(get_db_session)
 ):
     """Retrieve a list of registered users."""
-    result = await db.scalars(select(User).offset(skip).limit(limit))
-    users = result.all()
-    return users
+    result = await db.exec(select(User).offset(skip).limit(limit))
+    return result.all()
 
 
 @router.get("/{user_id}", response_model=UserRead)
