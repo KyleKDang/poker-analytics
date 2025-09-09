@@ -12,12 +12,14 @@ router = APIRouter(prefix="/sessions", tags=["sessions"])
 
 @router.get("/", response_model=list[SessionRead])
 async def get_sessions(db: AsyncSession = Depends(get_db_session)):
+    """Retrieve all poker sessions."""
     result = await db.exec(select(PokerSession))
     return result.all()
 
 
 @router.get("/{session_id}", response_model=SessionRead)
 async def get_session(session_id: int, db: AsyncSession = Depends(get_db_session)):
+    """Retrieve a single poker session by ID."""
     result = await db.exec(select(PokerSession).where(PokerSession.id == session_id))
     poker_session = result.first()
     if not poker_session:
@@ -31,6 +33,7 @@ async def get_session(session_id: int, db: AsyncSession = Depends(get_db_session
 async def create_session(
     session_create: SessionCreate, db: AsyncSession = Depends(get_db_session)
 ):
+    """Create a new poker session."""
     new_session = PokerSession(**session_create.model_dump())
     db.add(new_session)
     await db.commit()
