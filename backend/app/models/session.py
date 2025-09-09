@@ -17,3 +17,6 @@ class Session(SQLModel, table=True):
 
     user: Optional["User"] = Relationship(back_populates="sessions")
     hands: list["Hand"] = Relationship(back_populates="session")
+
+
+from .hand import Hand
