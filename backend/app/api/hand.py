@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, status
 
 from .schemas.hand import EvaluateHandRequest, CalculateOddsRequest
 from app.core.evaluator.evaluator import evaluate_seven_card_hand
@@ -6,7 +6,7 @@ from app.core.odds.odds_calculator import calculate_odds as calculate_odds_core
 from app.core.models.card import Card
 
 
-router = APIRouter()
+router = APIRouter(prefix="/hands", tags=["hands"])
 
 
 def _parse_cards(cards: list[str]) -> list[Card]:
@@ -14,7 +14,7 @@ def _parse_cards(cards: list[str]) -> list[Card]:
     return [Card(c) for c in cards]
 
 
-@router.post("/hands/evaluation")
+@router.post("/evaluation", status_code=status.HTTP_200_OK)
 def evaluate_hand(request: EvaluateHandRequest) -> dict[str, str | int]:
     """
     Evaluate the best 5-card poker hand from the player's hole cards and board cards.
@@ -28,7 +28,7 @@ def evaluate_hand(request: EvaluateHandRequest) -> dict[str, str | int]:
     return {"hand": result["label"], "rank": result["rank"]}
 
 
-@router.post("/hands/odds")
+@router.post("/odds", status_code=status.HTTP_200_OK)
 def calculate_odds(request: CalculateOddsRequest) -> dict[str, float]:
     """
     Calculate winning odds for the given hole cards and board state.
