@@ -1,12 +1,30 @@
 from datetime import datetime, timezone
+from enum import Enum
 from typing import Optional, TYPE_CHECKING
 
-from sqlalchemy import Column, String
-from sqlalchemy.dialects.postgresql import ARRAY
-from sqlmodel import SQLModel, Field, Relationship
+from sqlalchemy import String, ARRAY
+from sqlmodel import SQLModel, Column, Field, Relationship
 
 if TYPE_CHECKING:
     from .session import Session
+
+
+class Position(str, Enum):
+    early = "early"
+    middle = "middle"
+    late = "late"
+
+
+class Action(str, Enum):
+    fold = "fold"
+    call = "call"
+    raise_ = "raise"
+
+
+class Result(str, Enum):
+    win = "win"
+    loss = "loss"
+    tie = "tie"
 
 
 class Hand(SQLModel, table=True):
@@ -18,9 +36,9 @@ class Hand(SQLModel, table=True):
         sa_column=Column(ARRAY(String)), default_factory=list
     )
 
-    result: str
-    position: str
-    action_taken: Optional[str] = None
+    position: Position
+    action_taken: Optional[Action] = None
+    result: Optional[Result] = None
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     session: Optional["Session"] = Relationship(back_populates="hands")
