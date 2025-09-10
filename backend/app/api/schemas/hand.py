@@ -5,15 +5,26 @@ from pydantic import BaseModel
 from sqlmodel import SQLModel
 
 
-class EvaluateHandRequest(BaseModel):
+class HandEvaluationRequest(BaseModel):
     hole_cards: list[str]
     board_cards: list[str]
 
 
-class CalculateOddsRequest(BaseModel):
+class HandEvaluationResponse(BaseModel):
+    hand: str
+    rank: int
+
+
+class HandOddsRequest(BaseModel):
     hole_cards: list[str]
     board_cards: list[str]
     num_opponents: int
+
+
+class HandOddsResponse(BaseModel):
+    win: float
+    tie: float
+    loss: float
 
 
 class HandBase(SQLModel):
