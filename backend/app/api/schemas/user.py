@@ -22,6 +22,8 @@ class UserRead(BaseModel):
     created_at: datetime
     is_active: bool
 
+    model_config = {"from_attributes": True}
+
 
 class TokenResponse(BaseModel):
     access_token: str

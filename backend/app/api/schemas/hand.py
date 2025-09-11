@@ -45,6 +45,8 @@ class HandRead(BaseModel):
     result: Optional[str] = None
     created_at: datetime
 
+    model_config = {"from_attributes": True}
+
 
 class HandUpdate(BaseModel):
     action_taken: Optional[str] = None

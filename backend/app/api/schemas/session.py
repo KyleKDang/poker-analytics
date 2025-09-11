@@ -15,3 +15,5 @@ class SessionRead(BaseModel):
     start_time: datetime
     end_time: Optional[datetime] = None
     notes: Optional[str] = None
+
+    model_config = {"from_attributes": True}
