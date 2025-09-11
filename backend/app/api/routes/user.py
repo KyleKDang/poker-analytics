@@ -4,7 +4,7 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.db.session import get_db_session
 from app.models.user import User
-from app.api.schemas.user import UserCreate, UserLogin, UserRead, TokenResponse
+from app.api.schemas.user import UserRegister, UserLogin, UserRead, TokenResponse
 from app.core.security import hash_password, verify_password, create_access_token
 
 
@@ -32,7 +32,9 @@ async def get_user(user_id: int, db: AsyncSession = Depends(get_db_session)):
 
 
 @router.post("/register", response_model=UserRead, status_code=status.HTTP_201_CREATED)
-async def register(user_create: UserCreate, db: AsyncSession = Depends(get_db_session)):
+async def register(
+    user_create: UserRegister, db: AsyncSession = Depends(get_db_session)
+):
     """Register a new user."""
     result = await db.exec(
         select(User).where(
