@@ -30,7 +30,7 @@ class HandCreate(BaseModel):
     session_id: int
     hole_cards: list[str] = []
     board_cards: list[str] = []
-    position: str
+    player_position: str
     action_taken: Optional[str] = None
     result: Optional[str] = None
 
@@ -40,7 +40,7 @@ class HandRead(BaseModel):
     session_id: int
     hole_cards: list[str]
     board_cards: list[str]
-    position: str
+    player_position: str
     action_taken: Optional[str] = None
     result: Optional[str] = None
     created_at: datetime

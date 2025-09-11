@@ -36,9 +36,9 @@ class Hand(SQLModel, table=True):
         sa_column=Column(ARRAY(String)), default_factory=list
     )
 
-    position: Position
-    action_taken: Optional[Action] = None
-    result: Optional[Result] = None
+    player_position: Position = Field(sa_column=(Column(String, nullable=False)))
+    action_taken: Optional[Action] = Field(sa_column=Column(String), default=None)
+    result: Optional[Result] = Field(sa_column=Column(String), default=None)
     created_at: datetime = Field(default_factory=lambda: datetime.now())
 
     session: Optional["Session"] = Relationship(back_populates="hands")
