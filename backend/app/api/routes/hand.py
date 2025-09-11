@@ -64,7 +64,7 @@ async def update_hand(
         setattr(hand, key, value)
 
     await db.commit()
-    await db.refresh()
+    await db.refresh(hand)
     return hand
 
 
