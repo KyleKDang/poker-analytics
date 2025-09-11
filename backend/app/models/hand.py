@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime
 from enum import Enum
 from typing import Optional, TYPE_CHECKING
 
@@ -39,6 +39,6 @@ class Hand(SQLModel, table=True):
     position: Position
     action_taken: Optional[Action] = None
     result: Optional[Result] = None
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    created_at: datetime = Field(default_factory=lambda: datetime.now())
 
     session: Optional["Session"] = Relationship(back_populates="hands")
