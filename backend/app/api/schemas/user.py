@@ -1,5 +1,7 @@
-from pydantic import BaseModel, EmailStr
+from datetime import datetime
 from typing import Optional
+
+from pydantic import BaseModel, EmailStr
 
 
 class UserCreate(BaseModel):
@@ -17,11 +19,8 @@ class UserRead(BaseModel):
     id: int
     username: str
     email: Optional[EmailStr] = None
-    created_at: str
+    created_at: datetime
     is_active: bool
-
-    class Config:
-        orm_mode = True
 
 
 class TokenResponse(BaseModel):

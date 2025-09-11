@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from fastapi import APIRouter, HTTPException, status, Depends
 from sqlmodel.ext.asyncio.session import AsyncSession
 

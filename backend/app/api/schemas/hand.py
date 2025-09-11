@@ -2,7 +2,6 @@ from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel
-from sqlmodel import SQLModel
 
 
 class HandEvaluationRequest(BaseModel):
@@ -27,7 +26,7 @@ class HandOddsResponse(BaseModel):
     loss: float
 
 
-class HandBase(SQLModel):
+class HandCreate(BaseModel):
     session_id: int
     hole_cards: list[str] = []
     board_cards: list[str] = []
@@ -36,18 +35,17 @@ class HandBase(SQLModel):
     result: Optional[str] = None
 
 
-class HandCreate(HandBase):
-    pass
-
-
-class HandRead(HandBase):
+class HandRead(BaseModel):
     id: int
+    session_id: int
+    hole_cards: list[str]
+    board_cards: list[str]
+    position: str
+    action_taken: Optional[str] = None
+    result: Optional[str] = None
     created_at: datetime
 
-    class Config:
-        form_attributes = True
 
-
-class HandUpdate(SQLModel):
+class HandUpdate(BaseModel):
     action_taken: Optional[str] = None
     result: Optional[str] = None

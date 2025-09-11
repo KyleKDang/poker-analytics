@@ -1,23 +1,17 @@
 from datetime import datetime
 from typing import Optional
 
-from sqlmodel import SQLModel
+from pydantic import BaseModel
 
 
-class SessionCreate(SQLModel):
+class SessionCreate(BaseModel):
     user_id: int
     notes: Optional[str] = None
 
-    class Config:
-        orm_mode = True
 
-
-class SessionRead(SQLModel):
+class SessionRead(BaseModel):
     id: int
     user_id: int
     start_time: datetime
-    end_time: Optional[str] = None
+    end_time: Optional[datetime] = None
     notes: Optional[str] = None
-
-    class Config:
-        orm_mode = True
