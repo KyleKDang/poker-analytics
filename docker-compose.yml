@@ -11,7 +11,7 @@ services:
     ports:
       - "5433:5432"
     networks:
-      - backend
+      - poker-net
 
   backend:
     build:
@@ -27,10 +27,26 @@ services:
     env_file:
       - ./backend/.env
     networks:
+      - poker-net
+
+  frontend:
+    build: ./frontend
+    container_name: poker-frontend
+    command: npm run dev
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:8000
+    depends_on:
       - backend
+    networks:
+      - poker-net
 
 volumes:
   postgres_data:
 
 networks:
-  backend:
+  poker-net:
