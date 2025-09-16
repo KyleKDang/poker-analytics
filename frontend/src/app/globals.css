@@ -1,26 +1,17 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  @apply bg-gradient-to-b from-gray-900 via-green-950 to-gray-900 text-gray-100 font-sans min-h-screen;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply text-yellow-400 drop-shadow-lg;
+}
+
+button {
+  transition: all 0.3s ease;
+}
+
+input {
+  @apply rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 bg-gray-800 text-gray-100;
 }
