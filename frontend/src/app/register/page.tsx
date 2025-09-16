@@ -32,9 +32,9 @@ export default function RegisterPage() {
       });
       localStorage.setItem("token", response.data.access_token);
       router.push("/");
-    } catch (err: any) {
-      if (err.response?.data?.detail) {
-        setError(err.response.data.detail);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
       } else {
         setError("Registration failed. Please try again.");
       }
@@ -50,7 +50,7 @@ export default function RegisterPage() {
         className="bg-gray-800/90 backdrop-blur-lg shadow-2xl rounded-2xl p-10 w-full max-w-sm border-2 border-yellow-400"
       >
         <h1 className="text-4xl font-extrabold mb-6 text-center text-yellow-400 drop-shadow-lg whitespace-nowrap">
-          Hold'em Analytics
+          Hold&apos;em Analytics
         </h1>
 
         {error && (
