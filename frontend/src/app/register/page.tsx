@@ -50,7 +50,7 @@ export default function RegisterPage() {
         className="bg-gray-800/90 backdrop-blur-lg shadow-2xl rounded-2xl p-10 w-full max-w-sm border-2 border-yellow-400"
       >
         <h1 className="text-4xl font-extrabold mb-6 text-center text-yellow-400 drop-shadow-lg whitespace-nowrap">
-          Hold&apos;em Analytics
+          Hold&apos;Em Analytics
         </h1>
 
         {error && (
