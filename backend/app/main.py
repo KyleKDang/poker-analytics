@@ -4,7 +4,7 @@ from fastapi import FastAPI, Depends
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from app.api.routes import hand, session, user
+from app.api.routes import hand, session, user, auth
 from app.db.session import create_db_and_tables, get_db_session
 from app.core.config import settings
 
@@ -19,6 +19,7 @@ app = FastAPI(title=settings.APP_NAME, lifespan=lifespan)
 app.include_router(hand.router)
 app.include_router(session.router)
 app.include_router(user.router)
+app.include_router(auth.router)
 
 
 @app.get("/")
