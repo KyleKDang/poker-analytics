@@ -32,10 +32,6 @@ services:
   frontend:
     build: ./frontend
     container_name: poker-frontend
-    command: npm run dev
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
     ports:
       - "3000:3000"
     environment:
