@@ -4,7 +4,12 @@ body {
   @apply bg-gradient-to-b from-gray-900 via-green-950 to-gray-900 text-gray-100 font-sans min-h-screen;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   @apply text-yellow-400 drop-shadow-lg;
 }
 

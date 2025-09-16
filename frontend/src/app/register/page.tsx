@@ -4,10 +4,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/services/api";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const router = useRouter();
+  const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -16,15 +18,25 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
 
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      setLoading(false);
+      return;
+    }
+
     try {
-      const response = await api.post("/auth/login", { username, password });
+      const response = await api.post("/auth/register", {
+        email,
+        username,
+        password,
+      });
       localStorage.setItem("token", response.data.access_token);
       router.push("/");
     } catch (err: any) {
       if (err.response?.data?.detail) {
         setError(err.response.data.detail);
       } else {
-        setError("Login failed. Please try again.");
+        setError("Registration failed. Please try again.");
       }
     } finally {
       setLoading(false);
@@ -48,6 +60,22 @@ export default function LoginPage() {
         )}
 
         <div className="mb-4">
+          <label htmlFor="email" className="block text-sm font-semibold mb-2">
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            autoFocus
+            className="w-full bg-gray-700/80 p-3 rounded-lg focus:ring-2 focus:ring-yellow-400"
+            required
+          />
+        </div>
+
+        <div className="mb-4">
           <label
             htmlFor="username"
             className="block text-sm font-semibold mb-2"
@@ -60,13 +88,12 @@ export default function LoginPage() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Enter your username"
-            autoFocus
             className="w-full bg-gray-700/80 p-3 rounded-lg focus:ring-2 focus:ring-yellow-400"
             required
           />
         </div>
 
-        <div className="mb-6">
+        <div className="mb-4">
           <label
             htmlFor="password"
             className="block text-sm font-semibold mb-2"
@@ -84,6 +111,24 @@ export default function LoginPage() {
           />
         </div>
 
+        <div className="mb-6">
+          <label
+            htmlFor="confirmPassword"
+            className="block text-sm font-semibold mb-2"
+          >
+            Confirm Password
+          </label>
+          <input
+            id="confirmPassword"
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="Confirm your password"
+            className="w-full bg-gray-700/80 p-3 rounded-lg focus:ring-2 focus:ring-yellow-400"
+            required
+          />
+        </div>
+
         <button
           type="submit"
           disabled={loading}
@@ -91,7 +136,7 @@ export default function LoginPage() {
             loading ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
-          {loading ? "Logging in..." : "Login"}
+          {loading ? "Registering..." : "Register"}
         </button>
       </form>
     </div>
