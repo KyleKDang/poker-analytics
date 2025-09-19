@@ -21,13 +21,18 @@ export default function Card({ code, size = 80, id }: CardProps) {
     zIndex: isDragging ? 999 : undefined,
   };
   return (
-    <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...listeners}
+      {...attributes}
+      className="inline-flex items-center justify-center bg-white rounded shadow cursor-grab"
+    >
       <Image
         src={`/cards/${code}.png`}
         alt={code}
         width={size}
         height={size * 1.4}
-        className="rounded shadow cursor-grab"
       />
     </div>
   );
