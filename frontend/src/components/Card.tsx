@@ -16,7 +16,7 @@ export default function Card({ code, size = 80, id }: CardProps) {
   const style = {
     transform: transform
       ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
-      : undefined,
+      : "translate3d(0,0,0)",
     opacity: isDragging ? 0.5 : 1,
     zIndex: isDragging ? 999 : undefined,
   };
@@ -33,6 +33,7 @@ export default function Card({ code, size = 80, id }: CardProps) {
         alt={code}
         width={size}
         height={size * 1.4}
+        style={{ height: "auto" }}
       />
     </div>
   );
