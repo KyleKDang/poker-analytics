@@ -24,7 +24,7 @@ export default function DroppableArea({
       className="flex min-h-[100px] space-x-2 p-2 border-2 border-dashed rounded bg-gray-800"
     >
       {cards.map((c, i) => (
-        <Card key={i} code={c} id={`${id}-${c}`} size={60} />
+        <Card key={i} code={c} id={`${id}-${c}`} />
       ))}
       {cards.length === 0 && (
         <span className="text-gray-400">Drop cards here</span>

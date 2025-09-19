@@ -9,7 +9,7 @@ interface CardProps {
   id: string;
 }
 
-export default function Card({ code, size = 80, id }: CardProps) {
+export default function Card({ code, size = 60, id }: CardProps) {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({ id });
 
@@ -26,14 +26,14 @@ export default function Card({ code, size = 80, id }: CardProps) {
       style={style}
       {...listeners}
       {...attributes}
-      className="inline-flex items-center justify-center bg-white rounded shadow cursor-grab"
+      className="inline-flex items-center justify-center p-1 bg-white rounded shadow cursor-grab"
     >
       <Image
         src={`/cards/${code}.png`}
         alt={code}
-        width={size}
-        height={size * 1.4}
-        style={{ height: "auto" }}
+        width={200}
+        height={300}
+        style={{ width: `${size}px`, height: "auto" }}
       />
     </div>
   );
