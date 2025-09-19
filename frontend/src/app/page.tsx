@@ -40,11 +40,10 @@ export default function HomePage() {
   const [odds, setOdds] = useState<Odds | null>(null);
   const [mounted, setMounted] = useState(false);
 
-  // Initialize deck on mount to avoid SSR mismatch
   useEffect(() => {
     setDeck(suits.flatMap((s) => ranks.map((r) => r + s)));
     setMounted(true);
-  }, []);
+  }, [ranks, suits]);
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -91,7 +90,7 @@ export default function HomePage() {
     <DndContext onDragEnd={handleDragEnd}>
       <div className="min-h-screen p-6 bg-green-900">
         <h1 className="mb-6 text-4xl font-extrabold text-yellow-400 text-center">
-          Hold'Em Analytics
+          Hold&apos;Em Analytics
         </h1>
 
         <div className="mb-4">
