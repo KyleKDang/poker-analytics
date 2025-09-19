@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import api from "@/services/api";
 
@@ -32,14 +32,19 @@ export default function HomePage() {
     "A",
   ];
 
-  const [deck, setDeck] = useState<string[]>(
-    suits.flatMap((s) => ranks.map((r) => r + s)),
-  );
+  const [deck, setDeck] = useState<string[]>([]);
   const [holeCards, setHoleCards] = useState<string[]>([]);
   const [boardCards, setBoardCards] = useState<string[]>([]);
   const [numOpponents, setNumOpponents] = useState<number>(1);
   const [hand, setHand] = useState<string>();
   const [odds, setOdds] = useState<Odds | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  // Initialize deck on mount to avoid SSR mismatch
+  useEffect(() => {
+    setDeck(suits.flatMap((s) => ranks.map((r) => r + s)));
+    setMounted(true);
+  }, []);
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
@@ -101,41 +106,45 @@ export default function HomePage() {
           />
         </div>
 
-        <h2 className="mb-2 text-white font-semibold">Hole Cards</h2>
-        <DroppableArea
-          id="hole"
-          cards={holeCards}
-          onCardDrop={() => {}}
-          maxCards={2}
-        />
+        {mounted && (
+          <>
+            <h2 className="mb-2 text-white font-semibold">Hole Cards</h2>
+            <DroppableArea
+              id="hole"
+              cards={holeCards}
+              onCardDrop={() => {}}
+              maxCards={2}
+            />
 
-        <h2 className="mb-2 text-white font-semibold">Board Cards</h2>
-        <DroppableArea
-          id="board"
-          cards={boardCards}
-          onCardDrop={() => {}}
-          maxCards={5}
-        />
+            <h2 className="mb-2 text-white font-semibold">Board Cards</h2>
+            <DroppableArea
+              id="board"
+              cards={boardCards}
+              onCardDrop={() => {}}
+              maxCards={5}
+            />
 
-        <h2 className="mb-2 text-white font-semibold">Deck</h2>
-        <Deck deck={deck} />
+            <h2 className="mb-2 text-white font-semibold">Deck</h2>
+            <Deck deck={deck} />
 
-        <div className="flex gap-4 mt-6">
-          <button
-            onClick={evaluateHand}
-            className="px-4 py-2 bg-yellow-400 font-bold hover:brightness-110"
-          >
-            Evaluate Hand
-          </button>
-          <button
-            onClick={calculateOdds}
-            className="px-4 py-2 bg-yellow-400 font-bold hover:brightness-110"
-          >
-            Calculate Odds
-          </button>
-        </div>
+            <div className="flex gap-4 mt-6">
+              <button
+                onClick={evaluateHand}
+                className="px-4 py-2 bg-yellow-400 font-bold hover:brightness-110"
+              >
+                Evaluate Hand
+              </button>
+              <button
+                onClick={calculateOdds}
+                className="px-4 py-2 bg-yellow-400 font-bold hover:brightness-110"
+              >
+                Calculate Odds
+              </button>
+            </div>
 
-        <ResultsPanel handRank={hand} odds={odds} />
+            <ResultsPanel handRank={hand} odds={odds} />
+          </>
+        )}
       </div>
     </DndContext>
   );
