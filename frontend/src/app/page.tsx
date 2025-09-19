@@ -6,6 +6,7 @@ import api from "@/services/api";
 
 import Deck from "@/components/Deck";
 import DroppableArea from "@/components/DroppableArea";
+import ResultsPanel from "@/components/ResultsPanel";
 
 type Odds = {
   win: number;
@@ -118,6 +119,23 @@ export default function HomePage() {
 
         <h2 className="mb-2 text-white font-semibold">Deck</h2>
         <Deck deck={deck} />
+
+        <div className="flex gap-4 mt-6">
+          <button
+            onClick={evaluateHand}
+            className="px-4 py-2 bg-yellow-400 font-bold hover:brightness-110"
+          >
+            Evaluate Hand
+          </button>
+          <button
+            onClick={calculateOdds}
+            className="px-4 py-2 bg-yellow-400 font-bold hover:brightness-110"
+          >
+            Calculate Odds
+          </button>
+        </div>
+
+        <ResultsPanel handRank={hand} odds={odds} />
       </div>
     </DndContext>
   );
