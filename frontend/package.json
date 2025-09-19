@@ -11,6 +11,8 @@
     "tailwind:init": "tailwindcss init"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
     "axios": "^1.12.1",
     "next": "15.5.3",
     "react": "19.1.0",
