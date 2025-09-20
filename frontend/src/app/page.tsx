@@ -78,8 +78,9 @@ export default function HomePage() {
         </h1>
 
         <div className="mb-4">
-          <label>Opponents:</label>
+          <label htmlFor="num-opponents">Opponents:</label>
           <input
+            id="num-opponents"
             type="number"
             min={1}
             max={9}
@@ -91,36 +92,36 @@ export default function HomePage() {
 
         <h2 className="mb-2 text-white font-semibold">Hole Cards</h2>
         <DroppableArea
-            id="hole"
-            cards={holeCards}
-            onCardDrop={() => {}}
-            maxCards={2}
+          id="hole"
+          cards={holeCards}
+          onCardDrop={() => {}}
+          maxCards={2}
         />
 
         <h2 className="mb-2 text-white font-semibold">Board Cards</h2>
         <DroppableArea
-            id="board"
-            cards={boardCards}
-            onCardDrop={() => {}}
-            maxCards={5}
+          id="board"
+          cards={boardCards}
+          onCardDrop={() => {}}
+          maxCards={5}
         />
 
         <h2 className="mb-2 text-white font-semibold">Deck</h2>
         <Deck deck={deck} />
 
         <div className="flex gap-4 mt-6">
-            <button
+          <button
             onClick={evaluateHand}
             className="px-4 py-2 bg-yellow-400 font-bold hover:brightness-110"
-            >
+          >
             Evaluate Hand
-            </button>
-            <button
+          </button>
+          <button
             onClick={calculateOdds}
             className="px-4 py-2 bg-yellow-400 font-bold hover:brightness-110"
-            >
+          >
             Calculate Odds
-            </button>
+          </button>
         </div>
 
         <ResultsPanel handRank={handRank} odds={odds} />
