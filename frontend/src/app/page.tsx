@@ -24,11 +24,9 @@ export default function HomePage() {
   const [numOpponents, setNumOpponents] = useState<number>(1);
   const [handRank, setHandRank] = useState<string>();
   const [odds, setOdds] = useState<Odds | null>(null);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setDeck(suits.flatMap((s) => ranks.map((r) => r + s)));
-    setMounted(true);
   }, [suits, ranks]);
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -36,13 +34,13 @@ export default function HomePage() {
     if (!over) return;
 
     const cardCode = active.id.toString().replace("deck-", "");
-    if (!deck.includes(cardCode)) return;
-
     if (over.id === "hole" && holeCards.length < 2) {
       setHoleCards([...holeCards, cardCode]);
+      setBoardCards(boardCards.filter((c) => c !== cardCode));
       setDeck(deck.filter((c) => c !== cardCode));
     } else if (over.id === "board" && boardCards.length < 5) {
       setBoardCards([...boardCards, cardCode]);
+      setHoleCards(holeCards.filter((c) => c !== cardCode));
       setDeck(deck.filter((c) => c !== cardCode));
     }
   };
@@ -91,45 +89,41 @@ export default function HomePage() {
           />
         </div>
 
-        {mounted && (
-          <>
-            <h2 className="mb-2 text-white font-semibold">Hole Cards</h2>
-            <DroppableArea
-              id="hole"
-              cards={holeCards}
-              onCardDrop={() => {}}
-              maxCards={2}
-            />
+        <h2 className="mb-2 text-white font-semibold">Hole Cards</h2>
+        <DroppableArea
+            id="hole"
+            cards={holeCards}
+            onCardDrop={() => {}}
+            maxCards={2}
+        />
 
-            <h2 className="mb-2 text-white font-semibold">Board Cards</h2>
-            <DroppableArea
-              id="board"
-              cards={boardCards}
-              onCardDrop={() => {}}
-              maxCards={5}
-            />
+        <h2 className="mb-2 text-white font-semibold">Board Cards</h2>
+        <DroppableArea
+            id="board"
+            cards={boardCards}
+            onCardDrop={() => {}}
+            maxCards={5}
+        />
 
-            <h2 className="mb-2 text-white font-semibold">Deck</h2>
-            <Deck deck={deck} />
+        <h2 className="mb-2 text-white font-semibold">Deck</h2>
+        <Deck deck={deck} />
 
-            <div className="flex gap-4 mt-6">
-              <button
-                onClick={evaluateHand}
-                className="px-4 py-2 bg-yellow-400 font-bold hover:brightness-110"
-              >
-                Evaluate Hand
-              </button>
-              <button
-                onClick={calculateOdds}
-                className="px-4 py-2 bg-yellow-400 font-bold hover:brightness-110"
-              >
-                Calculate Odds
-              </button>
-            </div>
+        <div className="flex gap-4 mt-6">
+            <button
+            onClick={evaluateHand}
+            className="px-4 py-2 bg-yellow-400 font-bold hover:brightness-110"
+            >
+            Evaluate Hand
+            </button>
+            <button
+            onClick={calculateOdds}
+            className="px-4 py-2 bg-yellow-400 font-bold hover:brightness-110"
+            >
+            Calculate Odds
+            </button>
+        </div>
 
-            <ResultsPanel handRank={handRank} odds={odds} />
-          </>
-        )}
+        <ResultsPanel handRank={handRank} odds={odds} />
       </div>
     </DndContext>
   );
