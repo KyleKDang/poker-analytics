@@ -14,7 +14,7 @@ type Odds = {
   loss: number;
 };
 
-const suits = ["C", "D", "H", "S"];
+const suits = ["S", "H", "D", "C"];
 const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"];
 
 export default function HomePage() {
