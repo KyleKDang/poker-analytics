@@ -34,14 +34,42 @@ export default function HomePage() {
     if (!over) return;
 
     const cardCode = active.id.toString().replace("deck-", "");
-    if (over.id === "hole" && holeCards.length < 2) {
-      setHoleCards([...holeCards, cardCode]);
-      setBoardCards(boardCards.filter((c) => c !== cardCode));
-      setDeck(deck.filter((c) => c !== cardCode));
-    } else if (over.id === "board" && boardCards.length < 5) {
-      setBoardCards([...boardCards, cardCode]);
-      setHoleCards(holeCards.filter((c) => c !== cardCode));
-      setDeck(deck.filter((c) => c !== cardCode));
+
+    const fromHole = holeCards.includes(cardCode);
+    const fromBoard = boardCards.includes(cardCode);
+    const fromDeck = deck.includes(cardCode);
+
+    switch (over.id) {
+      case "hole":
+        if (holeCards.length < 2 && !fromHole) {
+          setHoleCards((prev) => [...prev, cardCode]);
+          if (fromBoard)
+            setBoardCards((prev) => prev.filter((c) => c !== cardCode));
+          if (fromDeck) setDeck((prev) => prev.filter((c) => c !== cardCode));
+        }
+        break;
+
+      case "board":
+        if (boardCards.length < 5 && !fromBoard) {
+          setBoardCards((prev) => [...prev, cardCode]);
+          if (fromHole)
+            setHoleCards((prev) => prev.filter((c) => c !== cardCode));
+          if (fromDeck) setDeck((prev) => prev.filter((c) => c !== cardCode));
+        }
+        break;
+
+      case "deck":
+        if (!fromDeck) {
+          setDeck((prev) => [...prev, cardCode]);
+          if (fromHole)
+            setHoleCards((prev) => prev.filter((c) => c !== cardCode));
+          if (fromBoard)
+            setBoardCards((prev) => prev.filter((c) => c !== cardCode));
+        }
+        break;
+
+      default:
+        break;
     }
   };
 
