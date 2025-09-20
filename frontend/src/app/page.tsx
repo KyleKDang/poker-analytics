@@ -14,24 +14,10 @@ type Odds = {
   loss: number;
 };
 
-export default function HomePage() {
-  const suits = ["C", "D", "H", "S"];
-  const ranks = [
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "T",
-    "J",
-    "Q",
-    "K",
-    "A",
-  ];
+const suits = ["C", "D", "H", "S"];
+const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"];
 
+export default function HomePage() {
   const [deck, setDeck] = useState<string[]>([]);
   const [holeCards, setHoleCards] = useState<string[]>([]);
   const [boardCards, setBoardCards] = useState<string[]>([]);
@@ -43,7 +29,7 @@ export default function HomePage() {
   useEffect(() => {
     setDeck(suits.flatMap((s) => ranks.map((r) => r + s)));
     setMounted(true);
-  }, [ranks, suits]);
+  }, [suits, ranks]);
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
