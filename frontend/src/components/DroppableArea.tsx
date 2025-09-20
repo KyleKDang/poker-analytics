@@ -6,16 +6,9 @@ import Card from "./Card";
 interface DroppableAreaProps {
   id: string;
   cards: string[];
-  onCardDrop: (cardCode: string) => void;
-  maxCards: number;
 }
 
-export default function DroppableArea({
-  id,
-  cards,
-  onCardDrop,
-  maxCards,
-}: DroppableAreaProps) {
+export default function DroppableArea({ id, cards }: DroppableAreaProps) {
   const { setNodeRef } = useDroppable({ id });
 
   return (

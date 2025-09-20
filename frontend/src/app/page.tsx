@@ -91,20 +91,10 @@ export default function HomePage() {
         </div>
 
         <h2 className="mb-2 text-white font-semibold">Hole Cards</h2>
-        <DroppableArea
-          id="hole"
-          cards={holeCards}
-          onCardDrop={() => {}}
-          maxCards={2}
-        />
+        <DroppableArea id="hole" cards={holeCards} />
 
         <h2 className="mb-2 text-white font-semibold">Board Cards</h2>
-        <DroppableArea
-          id="board"
-          cards={boardCards}
-          onCardDrop={() => {}}
-          maxCards={5}
-        />
+        <DroppableArea id="board" cards={boardCards} />
 
         <h2 className="mb-2 text-white font-semibold">Deck</h2>
         <Deck deck={deck} />
