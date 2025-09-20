@@ -22,7 +22,7 @@ export default function HomePage() {
   const [holeCards, setHoleCards] = useState<string[]>([]);
   const [boardCards, setBoardCards] = useState<string[]>([]);
   const [numOpponents, setNumOpponents] = useState<number>(1);
-  const [hand, setHand] = useState<string>();
+  const [handRank, setHandRank] = useState<string>();
   const [odds, setOdds] = useState<Odds | null>(null);
   const [mounted, setMounted] = useState(false);
 
@@ -53,7 +53,7 @@ export default function HomePage() {
         hole_cards: holeCards,
         board_cards: boardCards,
       });
-      setHand(response.data.hand);
+      setHandRank(response.data.hand);
     } catch (err) {
       console.log(err);
     }
@@ -127,7 +127,7 @@ export default function HomePage() {
               </button>
             </div>
 
-            <ResultsPanel handRank={hand} odds={odds} />
+            <ResultsPanel handRank={handRank} odds={odds} />
           </>
         )}
       </div>
