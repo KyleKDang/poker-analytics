@@ -39,6 +39,16 @@ export default function HomePage() {
     setDeck(suits.flatMap((s) => ranks.map((r) => r + s)));
   }, [suits, ranks]);
 
+  const sortDeck = (deck: string[]) => {
+    return deck.sort((a, b) => {
+      const rankA = ranks.indexOf(a[0]);
+      const rankB = ranks.indexOf(b[0]);
+      const suitA = suits.indexOf(a[1]);
+      const suitB = suits.indexOf(b[1]);
+      return suitA - suitB || rankA - rankB;
+    });
+  };
+
   const handleDragStart = (event: DragStartEvent) => {
     setActiveCard(event.active.id.toString().replace("deck-", ""));
   };
@@ -75,7 +85,7 @@ export default function HomePage() {
 
       case "deck":
         if (!fromDeck) {
-          setDeck((prev) => [...prev, cardCode]);
+          setDeck((prev) => sortDeck([...prev, cardCode]));
           if (fromHole)
             setHoleCards((prev) => prev.filter((c) => c !== cardCode));
           if (fromBoard)
