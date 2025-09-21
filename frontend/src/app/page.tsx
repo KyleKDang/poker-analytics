@@ -1,9 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { DndContext, DragEndEvent } from "@dnd-kit/core";
+import {
+  DndContext,
+  DragEndEvent,
+  DragOverlay,
+  DragStartEvent,
+} from "@dnd-kit/core";
+import { createPortal } from "react-dom";
+
 import api from "@/services/api";
 
+import Card from "@/components/Card";
 import Deck from "@/components/Deck";
 import DroppableArea from "@/components/DroppableArea";
 import ResultsPanel from "@/components/ResultsPanel";
@@ -25,12 +33,19 @@ export default function HomePage() {
   const [handRank, setHandRank] = useState<string>();
   const [odds, setOdds] = useState<Odds | null>(null);
 
+  const [activeCard, setActiveCard] = useState<string | null>(null);
+
   useEffect(() => {
     setDeck(suits.flatMap((s) => ranks.map((r) => r + s)));
   }, [suits, ranks]);
 
+  const handleDragStart = (event: DragStartEvent) => {
+    setActiveCard(event.active.id.toString().replace("deck-", ""));
+  };
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
+    setActiveCard(null);
     if (!over) return;
 
     const cardCode = active.id.toString().replace("deck-", "");
@@ -99,7 +114,7 @@ export default function HomePage() {
   };
 
   return (
-    <DndContext onDragEnd={handleDragEnd}>
+    <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       <div className="min-h-screen p-6 bg-green-900">
         <h1 className="mb-6 text-4xl font-extrabold text-yellow-400 text-center">
           Hold&apos;Em Analytics
@@ -144,6 +159,16 @@ export default function HomePage() {
 
         <ResultsPanel handRank={handRank} odds={odds} />
       </div>
+
+      {typeof window !== "undefined" &&
+        createPortal(
+          <DragOverlay>
+            {activeCard ? (
+              <Card code={activeCard} id={`overlay-${activeCard}`} size={80} />
+            ) : null}
+          </DragOverlay>,
+          document.body,
+        )}
     </DndContext>
   );
 }

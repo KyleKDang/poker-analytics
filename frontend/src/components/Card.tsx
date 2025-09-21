@@ -18,7 +18,6 @@ export default function Card({ code, size = 60, id }: CardProps) {
       ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
       : "translate3d(0,0,0)",
     opacity: isDragging ? 0.5 : 1,
-    zIndex: isDragging ? 999 : undefined,
   };
   return (
     <div
