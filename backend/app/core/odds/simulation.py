@@ -1,7 +1,7 @@
 import random
 
 from ..models.card import Card, RANK_ORDER, SUITS
-from ..evaluator.evaluator import evaluate_seven_card_hand
+from ..evaluator.evaluator import evaluate_hand
 
 
 def simulate_chunk(
@@ -42,10 +42,8 @@ def simulate_chunk(
         ]
 
         # Evaluate hands
-        player_score = evaluate_seven_card_hand(hole_cards + full_board)
-        opponents_scores = [
-            evaluate_seven_card_hand(opp + full_board) for opp in opponents_hands
-        ]
+        player_score = evaluate_hand(hole_cards + full_board)
+        opponents_scores = [evaluate_hand(opp + full_board) for opp in opponents_hands]
 
         # Compare by rank then kickers
         max_opponent = max(opponents_scores, key=lambda s: (s["rank"], s["kickers"]))

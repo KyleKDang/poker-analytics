@@ -27,6 +27,8 @@ def evaluate_five_card_hand(cards: list[Card]) -> dict[str, int | str | tuple[in
         - rank (int): Hand strength.
         - kickers (tuple[int]): Rank indices for tie-breaking.
     """
+    num_cards = len(cards)
+
     sorted_cards = sorted(cards, key=lambda c: c.rank_value(), reverse=True)
     ranks = [c.rank for c in sorted_cards]
     suits = [c.suit for c in sorted_cards]
@@ -36,22 +38,22 @@ def evaluate_five_card_hand(cards: list[Card]) -> dict[str, int | str | tuple[in
         rank_counts.items(), key=lambda x: (-x[1], -RANK_ORDER.index(x[0]))
     )
 
-    is_flush = len(set(suits)) == 1
+    is_flush = num_cards >= 5 and len(set(suits)) == 1
 
     # Straight detection
-    rank_indices = sorted({RANK_ORDER.index(r) for r in ranks}, reverse=True)
     is_straight = False
     straight_high = None
-
-    for i in range(len(rank_indices) - 4):
-        window = rank_indices[i : i + 5]
-        if all(window[j] - 1 == window[j + 1] for j in range(4)):
-            is_straight = True
-            straight_high = window[0]
-            break
+    if num_cards >= 5:
+        rank_indices = sorted({RANK_ORDER.index(r) for r in ranks}, reverse=True)
+        for i in range(len(rank_indices) - 4):
+            window = rank_indices[i : i + 5]
+            if all(window[j] - 1 == window[j + 1] for j in range(4)):
+                is_straight = True
+                straight_high = window[0]
+                break
 
     # Ace-low straight
-    if set(ranks) >= {"A", "2", "3", "4", "5"}:
+    if num_cards >= 5 and set(ranks) >= {"A", "2", "3", "4", "5"}:
         is_straight = True
         straight_high = RANK_ORDER.index("5")
 
@@ -70,19 +72,19 @@ def evaluate_five_card_hand(cards: list[Card]) -> dict[str, int | str | tuple[in
         }
 
     # Four of a Kind
-    if counts_sorted[0][1] == 4:
-        kickers = (
-            RANK_ORDER.index(counts_sorted[0][0]),
-            RANK_ORDER.index(counts_sorted[1][0]),
+    if num_cards >= 4 and counts_sorted[0][1] == 4:
+        main = RANK_ORDER.index(counts_sorted[0][0])
+        kicker = (
+            RANK_ORDER.index(counts_sorted[1][0]) if len(counts_sorted) > 1 else None
         )
         return {
             "label": "Four of a Kind",
             "rank": HAND_RANKS["Four of a Kind"],
-            "kickers": kickers,
+            "kickers": (main, kicker) if kicker is not None else (main,),
         }
 
     # Full House
-    if counts_sorted[0][1] == 3 and counts_sorted[1][1] == 2:
+    if num_cards >= 5 and counts_sorted[0][1] == 3 and counts_sorted[1][1] == 2:
         kickers = (
             RANK_ORDER.index(counts_sorted[0][0]),
             RANK_ORDER.index(counts_sorted[1][0]),
@@ -106,58 +108,66 @@ def evaluate_five_card_hand(cards: list[Card]) -> dict[str, int | str | tuple[in
         }
 
     # Three of a Kind
-    if counts_sorted[0][1] == 3:
-        kickers = (RANK_ORDER.index(counts_sorted[0][0]),) + tuple(
-            RANK_ORDER.index(r) for r, c in counts_sorted[1:]
-        )
+    if num_cards >= 3 and counts_sorted[0][1] == 3:
+        main = RANK_ORDER.index(counts_sorted[0][0])
+        kickers = tuple(RANK_ORDER.index(r) for r, c in counts_sorted[1:])
         return {
             "label": "Three of a Kind",
             "rank": HAND_RANKS["Three of a Kind"],
-            "kickers": kickers,
+            "kickers": (main,) + kickers,
         }
 
     # Two Pair
-    if counts_sorted[0][1] == 2 and counts_sorted[1][1] == 2:
-        kickers = (
-            RANK_ORDER.index(counts_sorted[0][0]),
-            RANK_ORDER.index(counts_sorted[1][0]),
-            RANK_ORDER.index(counts_sorted[2][0]),
+    if num_cards >= 4 and counts_sorted[0][1] == 2 and counts_sorted[1][1] == 2:
+        main1 = RANK_ORDER.index(counts_sorted[0][0])
+        main2 = RANK_ORDER.index(counts_sorted[1][0])
+        kicker = (
+            RANK_ORDER.index(counts_sorted[2][0]) if len(counts_sorted) > 2 else None
         )
-        return {"label": "Two Pair", "rank": HAND_RANKS["Two Pair"], "kickers": kickers}
+        return {
+            "label": "Two Pair",
+            "rank": HAND_RANKS["Two Pair"],
+            "kickers": (main1, main2) + ((kicker,) if kicker is not None else ()),
+        }
 
     # One Pair
-    if counts_sorted[0][1] == 2:
-        kickers = (RANK_ORDER.index(counts_sorted[0][0]),) + tuple(
-            RANK_ORDER.index(r) for r, c in counts_sorted[1:]
-        )
-        return {"label": "One Pair", "rank": HAND_RANKS["One Pair"], "kickers": kickers}
+    if num_cards >= 2 and counts_sorted[0][1] == 2:
+        main = RANK_ORDER.index(counts_sorted[0][0])
+        kickers = tuple(RANK_ORDER.index(r) for r, c in counts_sorted[1:])
+        return {
+            "label": "One Pair",
+            "rank": HAND_RANKS["One Pair"],
+            "kickers": (main,) + kickers,
+        }
 
     # High Card
     kickers = tuple(RANK_ORDER.index(r) for r in ranks)
     return {"label": "High Card", "rank": HAND_RANKS["High Card"], "kickers": kickers}
 
 
-def evaluate_seven_card_hand(cards: list[Card]) -> dict[str, int | str | tuple[int]]:
+def evaluate_hand(cards: list[Card]) -> dict[str, int | str | tuple[int]]:
     """
-    Evaluate the best 5-card hand from 7 cards.
+    Evaluate the best possible hand from 1-7 cards.
 
     Returns a dictionary with:
         - label (str): Hand name (e.g., "Flush", "Two Pair").
         - rank (int): Hand strength.
         - kickers (tuple[int]): Rank indices for tie-breaking.
     """
-    if len(cards) != 7:
-        raise ValueError(f"Expected 7 cards, got {len(cards)}")
+    num_cards = len(cards)
+    if num_cards < 1:
+        raise ValueError(f"At least 1 card is required to evaluate a hand.")
+
+    if num_cards < 5:
+        return evaluate_five_card_hand(cards)
 
     best_hand = None
     for combo in combinations(cards, 5):
         current = evaluate_five_card_hand(list(combo))
-
         if not best_hand or (current["rank"], tuple(current["kickers"])) > (
             best_hand["rank"],
             best_hand["kickers"],
         ):
             best_hand = current
-            best_hand["kickers"] = tuple(current["kickers"])
 
     return best_hand

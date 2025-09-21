@@ -11,7 +11,7 @@ from app.api.schemas.hand import (
     HandUpdate,
 )
 from app.db.session import get_db_session
-from app.core.evaluator.evaluator import evaluate_seven_card_hand
+from app.core.evaluator.evaluator import evaluate_hand as evaluate_hand_core
 from app.core.odds.odds_calculator import calculate_odds as calculate_odds_core
 from app.core.models.card import Card
 from app.models.hand import Hand as PokerHand
@@ -74,7 +74,7 @@ async def evaluate_hand(request: HandEvaluationRequest):
     Evaluate the best 5-card poker hand from the player's hole cards and board cards.
     """
     all_cards = _parse_cards(request.hole_cards) + _parse_cards(request.board_cards)
-    result = evaluate_seven_card_hand(all_cards)
+    result = evaluate_hand_core(all_cards)
     return HandEvaluationResponse(hand=result["label"], rank=result["rank"])
 
 
