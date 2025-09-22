@@ -130,44 +130,56 @@ export default function HomePage() {
           Hold&apos;Em Analytics
         </h1>
 
-        <div className="mb-4">
-          <label htmlFor="num-opponents">Opponents:</label>
-          <input
-            id="num-opponents"
-            type="number"
-            min={1}
-            max={9}
-            value={numOpponents}
-            onChange={(e) => setNumOpponents(Number(e.target.value))}
-            className="p-2 rounded text-black"
-          />
+        {/* Grid Layout */}
+        <div className="grid grid-cols-2 grid-rows-[1fr_auto] gap-6 h-[80vh]">
+          {/* Top Left: Droppable Areas */}
+          <div className="p-4 rounded-lg bg-green-800/40">
+            <div className="mb-4">
+              <label htmlFor="num-opponents">Opponents:</label>
+              <input
+                id="num-opponents"
+                type="number"
+                min={1}
+                max={9}
+                value={numOpponents}
+                onChange={(e) => setNumOpponents(Number(e.target.value))}
+                className="p-2 rounded text-black"
+              />
+            </div>
+
+            <h2 className="mb-2 text-white font-semibold">Hole Cards</h2>
+            <DroppableArea id="hole" cards={holeCards} />
+
+            <h2 className="mb-2 text-white font-semibold">Board Cards</h2>
+            <DroppableArea id="board" cards={boardCards} />
+          </div>
+
+          {/* Top Right: Results Panel */}
+          <div className="grid grid-rows-[1fr_auto] h-full p-4 rounded-lg bg-green-800/40">
+            <ResultsPanel handRank={handRank} odds={odds} />
+
+            <div className="flex gap-4 mt-6">
+              <button
+                onClick={evaluateHand}
+                className="flex-1 px-4 py-2 bg-yellow-400 font-bold rounded hover:brightness-110"
+              >
+                Evaluate Hand
+              </button>
+              <button
+                onClick={calculateOdds}
+                className="flex-1 px-4 py-2 bg-yellow-400 font-bold rounded hover:brightness-110"
+              >
+                Calculate Odds
+              </button>
+            </div>
+          </div>
+
+          {/* Bottom: Deck */}
+          <div className="col-span-2 p-4 rounded-lg bg-green-800/40">
+            <h2 className="mb-2 text-white font-semibold">Deck</h2>
+            <Deck deck={deck} />
+          </div>
         </div>
-
-        <h2 className="mb-2 text-white font-semibold">Hole Cards</h2>
-        <DroppableArea id="hole" cards={holeCards} />
-
-        <h2 className="mb-2 text-white font-semibold">Board Cards</h2>
-        <DroppableArea id="board" cards={boardCards} />
-
-        <h2 className="mb-2 text-white font-semibold">Deck</h2>
-        <Deck deck={deck} />
-
-        <div className="flex gap-4 mt-6">
-          <button
-            onClick={evaluateHand}
-            className="px-4 py-2 bg-yellow-400 font-bold hover:brightness-110"
-          >
-            Evaluate Hand
-          </button>
-          <button
-            onClick={calculateOdds}
-            className="px-4 py-2 bg-yellow-400 font-bold hover:brightness-110"
-          >
-            Calculate Odds
-          </button>
-        </div>
-
-        <ResultsPanel handRank={handRank} odds={odds} />
       </div>
 
       {typeof window !== "undefined" &&
