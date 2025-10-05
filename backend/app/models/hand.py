@@ -18,7 +18,8 @@ class Position(str, Enum):
 class Action(str, Enum):
     fold = "fold"
     call = "call"
-    raise_ = "raise"
+    raise_action = "raise"
+    check = "check"
 
 
 class Result(str, Enum):
