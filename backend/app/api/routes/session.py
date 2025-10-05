@@ -3,6 +3,7 @@ from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.api.schemas.session import SessionCreate, SessionRead
+from app.api.schemas.hand import HandRead
 from app.models.session import Session as PokerSession
 from app.models.hand import Hand as PokerHand
 from app.db.session import get_db_session
@@ -61,3 +62,21 @@ async def delete_session(session_id: int, db: AsyncSession = Depends(get_db_sess
     await db.delete(poker_session)
     await db.commit()
     return None
+
+
+@router.get("/{session_id}/hands", response_model=list[HandRead])
+async def get_session_hands(
+    session_id: int, db: AsyncSession = Depends(get_db_session)
+):
+    """Get all hands for a specific session."""
+    result = await db.exec(select(PokerSession).where(PokerSession.id == session_id))
+    poker_session = result.first()
+    if not poker_session:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Poker session not found"
+        )
+
+    hands_result = await db.exec(
+        select(PokerHand).where(PokerHand.session_id == session_id)
+    )
+    return hands_result.all()
