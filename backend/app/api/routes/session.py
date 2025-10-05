@@ -4,6 +4,7 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.api.schemas.session import SessionCreate, SessionRead
 from app.models.session import Session as PokerSession
+from app.models.hand import Hand as PokerHand
 from app.db.session import get_db_session
 
 
@@ -39,3 +40,24 @@ async def create_session(
     await db.commit()
     await db.refresh(new_session)
     return new_session
+
+
+@router.delete("/{session_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_session(session_id: int, db: AsyncSession = Depends(get_db_session)):
+    """Delete a poker session and all its associated hands."""
+    result = await db.exec(select(PokerSession).where(PokerSession.id == session_id))
+    poker_session = result.first()
+    if not poker_session:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Poker session not found"
+        )
+
+    hand_result = await db.exec(
+        select(PokerHand).where(PokerHand.session_id == session_id)
+    )
+    for hand in hand_result.all():
+        await db.delete(hand)
+
+    await db.delete(poker_session)
+    await db.commit()
+    return None
