@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, status, Depends
+from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.api.schemas.hand import (
@@ -66,6 +67,20 @@ async def update_hand(
     await db.commit()
     await db.refresh(hand)
     return hand
+
+
+@router.delete("/{hand_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_hand(hand_id: int, db: AsyncSession = Depends(get_db_session)):
+    """Delete a specific hand."""
+    hand = await db.get(PokerHand, hand_id)
+    if not hand:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Hand not found"
+        )
+
+    await db.delete(hand)
+    await db.commit()
+    return None
 
 
 @router.post("/evaluation", response_model=HandEvaluationResponse)
