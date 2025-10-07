@@ -96,7 +96,7 @@ export default function SessionItem({ session, onDelete }: SessionItemProps) {
           ) : (
             <div className="space-y-2">
               {hands.map((hand, index) => (
-                <HandRow key={hand.id} hand={hand} handNumber={index+1} />
+                <HandRow key={hand.id} hand={hand} handNumber={index + 1} />
               ))}
             </div>
           )}

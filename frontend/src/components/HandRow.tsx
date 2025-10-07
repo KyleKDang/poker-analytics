@@ -59,10 +59,15 @@ export default function HandRow({ hand, handNumber }: HandRowProps) {
           </span>
         )}
         {hand.result && (
-          <span className={`px-3 py-1 rounded text-white text-sm font-semibold ${
-            hand.result === "win" ? "bg-green-600" :
-            hand.result === "loss" ? "bg-red-600" : "bg-gray-600"
-          }`}>
+          <span
+            className={`px-3 py-1 rounded text-white text-sm font-semibold ${
+              hand.result === "win"
+                ? "bg-green-600"
+                : hand.result === "loss"
+                  ? "bg-red-600"
+                  : "bg-gray-600"
+            }`}
+          >
             {hand.result.toUpperCase()}
           </span>
         )}
