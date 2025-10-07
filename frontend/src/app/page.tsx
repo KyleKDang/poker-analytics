@@ -125,11 +125,7 @@ export default function HomePage() {
 
   return (
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-      <div className="min-h-screen p-6 bg-green-900">
-        <h1 className="mb-6 text-4xl font-extrabold text-yellow-400 text-center">
-          Hold&apos;Em Analytics
-        </h1>
-
+      <div className="flex items-center h-[calc(100vh-73px)] p-6 bg-green-900">
         {/* Grid Layout */}
         <div className="grid grid-cols-2 grid-rows-[1fr_auto] gap-6 h-[80vh]">
           {/* Top Left: Droppable Areas */}
