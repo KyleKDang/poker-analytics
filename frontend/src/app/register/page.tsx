@@ -44,7 +44,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-gray-900 via-green-950 to-gray-900">
+    <div className="flex items-center justify-center h-[calc(100vh-73px)] bg-gradient-to-b from-gray-900 via-green-950 to-gray-900">
       <form
         onSubmit={handleSubmit}
         className="bg-gray-800/90 backdrop-blur-lg shadow-2xl rounded-2xl p-10 w-full max-w-sm border-2 border-yellow-400"
