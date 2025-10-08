@@ -11,6 +11,7 @@ interface Session {
   start_time: string;
   end_time: string | null;
   notes: string | null;
+  hand_count: number;
 }
 
 export default function SessionsPage() {
@@ -35,9 +36,7 @@ export default function SessionsPage() {
 
   const createSession = async () => {
     try {
-      const userId = 1;
       const response = await api.post("/sessions", {
-        user_id: userId,
         notes: notes.trim() || null,
       });
       setSessions([response.data, ...sessions]);
