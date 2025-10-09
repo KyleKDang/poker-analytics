@@ -11,6 +11,7 @@ interface Session {
   start_time: string;
   end_time: string | null;
   notes: string | null;
+  hand_count: number;
 }
 
 interface Hand {
@@ -69,7 +70,7 @@ export default function SessionItem({ session, onDelete }: SessionItemProps) {
               {session.notes || "Unnamed Session"}
             </h3>
             <p className="text-sm text-gray-400">
-              {new Date(session.start_time).toLocaleString()} • {hands.length}{" "}
+              {new Date(session.start_time).toLocaleString()} • {session.hand_count}{" "}
               hands
             </p>
           </div>
