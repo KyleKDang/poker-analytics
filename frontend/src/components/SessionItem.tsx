@@ -70,8 +70,8 @@ export default function SessionItem({ session, onDelete }: SessionItemProps) {
               {session.notes || "Unnamed Session"}
             </h3>
             <p className="text-sm text-gray-400">
-              {new Date(session.start_time).toLocaleString()} • {session.hand_count}{" "}
-              hands
+              {new Date(session.start_time).toLocaleString()} •{" "}
+              {session.hand_count} hands
             </p>
           </div>
         </div>
