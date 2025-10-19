@@ -234,7 +234,8 @@ export default function HandLoggerModal({
               {boardCards.join(", ") || "None"}
             </p>
             <p className="text-white text-sm">
-              <span className="font-semibold">Position:</span> {position}
+              <span className="font-semibold">Position:</span>{" "}
+              {position.charAt(0).toUpperCase() + position.slice(1)}
             </p>
           </div>
 
