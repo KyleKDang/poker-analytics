@@ -15,6 +15,7 @@ import Card from "@/components/Card";
 import Deck from "@/components/Deck";
 import DroppableArea from "@/components/DroppableArea";
 import ResultsPanel from "@/components/ResultsPanel";
+import HandLoggerModal from "@/components/HandLoggerModal";
 
 type Odds = {
   win: number;
@@ -34,6 +35,7 @@ export default function HomePage() {
   const [odds, setOdds] = useState<Odds | null>(null);
 
   const [activeCard, setActiveCard] = useState<string | null>(null);
+  const [showLogger, setShowLogger] = useState(false);
 
   useEffect(() => {
     setDeck(suits.flatMap((s) => ranks.map((r) => r + s)));
@@ -167,6 +169,13 @@ export default function HomePage() {
               >
                 Calculate Odds
               </button>
+              <button
+                onClick={() => setShowLogger(true)}
+                disabled={holeCards.length !== 2 || boardCards.length < 3}
+                className="flex-1 px-4 py-2 bg-blue-600 text-white font-bold rounded-lg hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              >
+                Log Hand
+              </button>
             </div>
           </div>
 
@@ -177,6 +186,13 @@ export default function HomePage() {
           </div>
         </div>
       </div>
+
+      <HandLoggerModal
+        isOpen={showLogger}
+        onClose={() => setShowLogger(false)}
+        holeCards={holeCards}
+        boardCards={boardCards}
+      />
 
       {typeof window !== "undefined" &&
         createPortal(
