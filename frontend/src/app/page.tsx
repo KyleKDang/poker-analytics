@@ -159,20 +159,20 @@ export default function HomePage() {
             <div className="flex gap-4 mt-6">
               <button
                 onClick={evaluateHand}
-                className="flex-1 px-4 py-2 bg-yellow-400 font-bold rounded hover:brightness-110"
+                className="flex-1 px-4 py-2 bg-gradient-to-br from-yellow-300 to-yellow-400 text-gray-900 font-bold rounded-lg hover:from-yellow-200 hover:to-yellow-300 transition-all shadow-lg hover:shadow-yellow-400/50 hover:scale-[1.02]"
               >
                 Evaluate Hand
               </button>
               <button
                 onClick={calculateOdds}
-                className="flex-1 px-4 py-2 bg-yellow-400 font-bold rounded hover:brightness-110"
+                className="flex-1 px-4 py-2 bg-gradient-to-br from-yellow-300 to-yellow-400 text-gray-900 font-bold rounded-lg hover:from-yellow-200 hover:to-yellow-300 transition-all shadow-lg hover:shadow-yellow-400/50 hover:scale-[1.02]"
               >
                 Calculate Odds
               </button>
               <button
                 onClick={() => setShowLogger(true)}
                 disabled={holeCards.length !== 2 || boardCards.length < 3}
-                className="flex-1 px-4 py-2 bg-blue-600 text-white font-bold rounded-lg hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="flex-1 px-4 py-2 bg-gradient-to-br from-yellow-300 to-yellow-400 text-gray-900 font-bold rounded-lg hover:from-yellow-200 hover:to-yellow-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-yellow-400/50 hover:scale-[1.02]"
               >
                 Log Hand
               </button>
