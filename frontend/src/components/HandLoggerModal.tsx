@@ -35,23 +35,23 @@ export default function HandLoggerModal({
   const [result, setResult] = useState("win");
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchSessions = useCallback(async () => {
-    try {
-      const response = await api.get("/sessions");
-      setSessions(response.data);
-      if (response.data.length > 0 && !selectedSession) {
-        setSelectedSession(response.data[0].id.toString());
-      }
-    } catch (err) {
-      console.error("Error fetching sessions:", err);
-    }
-  }, [selectedSession]);
-
   useEffect(() => {
-    if (isOpen) {
-      fetchSessions();
-    }
-  }, [isOpen, fetchSessions]);
+    if (!isOpen) return;
+
+    const fetchSessions = async () => {
+      try {
+        const response = await api.get("/sessions");
+        setSessions(response.data);
+        if (response.data.length > 0 && !selectedSession) {
+          setSelectedSession(response.data[0].id.toString());
+        }
+      } catch (err) {
+        console.error("Error fetching sessions:", err);
+      }
+    };
+
+    fetchSessions();
+  }, [isOpen, selectedSession]);
 
   const handleSave = async () => {
     if (!selectedSession) {
