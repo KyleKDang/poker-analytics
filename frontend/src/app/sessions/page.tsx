@@ -69,10 +69,6 @@ export default function SessionsPage() {
 
   return (
     <div className="min-h-screen p-6 bg-green-900">
-      <h1 className="mb-6 text-4xl font-extrabold text-yellow-400 text-center">
-        Hand Sessions
-      </h1>
-
       <div className="max-w-6xl mx-auto">
         <div className="mb-6 flex gap-3">
           <input
