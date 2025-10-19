@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Trash2, ChevronDown, ChevronRight } from "lucide-react";
 import api from "@/services/api";
 import HandRow from "./HandRow";
@@ -35,13 +35,7 @@ export default function SessionItem({ session, onDelete }: SessionItemProps) {
   const [hands, setHands] = useState<Hand[]>([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (isOpen && hands.length === 0) {
-      fetchHands();
-    }
-  }, [isOpen]);
-
-  const fetchHands = async () => {
+  const fetchHands = useCallback(async () => {
     setLoading(true);
     try {
       const response = await api.get(`/sessions/${session.id}/hands`);
@@ -51,7 +45,13 @@ export default function SessionItem({ session, onDelete }: SessionItemProps) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [session.id]);
+
+  useEffect(() => {
+    if (isOpen && hands.length === 0) {
+      fetchHands();
+    }
+  }, [isOpen, hands.length, fetchHands]);
 
   return (
     <div className="border-2 border-green-700 rounded-lg overflow-hidden bg-green-800/40">

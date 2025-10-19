@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Save, X } from "lucide-react";
 import api from "@/services/api";
 
@@ -35,13 +35,7 @@ export default function HandLoggerModal({
   const [result, setResult] = useState("win");
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (isOpen) {
-      fetchSessions();
-    }
-  }, [isOpen]);
-
-  const fetchSessions = async () => {
+  const fetchSessions = useCallback(async () => {
     try {
       const response = await api.get("/sessions");
       setSessions(response.data);
@@ -51,7 +45,13 @@ export default function HandLoggerModal({
     } catch (err) {
       console.error("Error fetching sessions:", err);
     }
-  };
+  }, [selectedSession]);
+
+  useEffect(() => {
+    if (isOpen) {
+      fetchSessions();
+    }
+  }, [isOpen, fetchSessions]);
 
   const handleSave = async () => {
     if (!selectedSession) {
@@ -80,14 +80,23 @@ export default function HandLoggerModal({
         action_taken: action,
         result: result,
       });
-
-      alert("Hand saved successfully!");
       onClose();
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error saving hand:", error);
-      alert(
-        "Error saving hand: " + (error.response?.data?.detail || error.message),
-      );
+      let errorMessage = "Unknown error";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      if (typeof error === "object" && error !== null && "response" in error) {
+        const axiosError = error as {
+          response?: { data?: { detail?: string } };
+        };
+        const apiError = axiosError.response?.data?.detail;
+        if (apiError) {
+          errorMessage = apiError;
+        }
+      }
+      alert("Error saving hand: " + errorMessage);
     } finally {
       setIsLoading(false);
     }

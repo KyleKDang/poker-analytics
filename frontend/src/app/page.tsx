@@ -39,7 +39,7 @@ export default function HomePage() {
 
   useEffect(() => {
     setDeck(suits.flatMap((s) => ranks.map((r) => r + s)));
-  }, [suits, ranks]);
+  }, []);
 
   const sortDeck = (deck: string[]) => {
     return deck.sort((a, b) => {
