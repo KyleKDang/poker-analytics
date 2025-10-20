@@ -191,7 +191,7 @@ export default function HandLoggerModal({
               {ACTIONS.map((a) => (
                 <button
                   key={a}
-                  onClick={() => setAction(a)}
+                  onClick={() => setAction(action === a ? null : a)}
                   className={`py-2 rounded-lg font-semibold transition-colors ${
                     action === a
                       ? "bg-yellow-400 text-gray-900"
@@ -213,7 +213,7 @@ export default function HandLoggerModal({
               {RESULTS.map((r) => (
                 <button
                   key={r}
-                  onClick={() => setResult(r)}
+                  onClick={() => setResult(result === r ? null : r)}
                   className={`flex-1 py-2 rounded-lg font-semibold transition-colors ${
                     result === r
                       ? r === "win"
