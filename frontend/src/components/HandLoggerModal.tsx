@@ -35,6 +35,17 @@ export default function HandLoggerModal({
   const [result, setResult] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const resetForm = () => {
+    setPosition("middle");
+    setAction(null);
+    setResult(null);
+  };
+
+  const handleClose = () => {
+    resetForm();
+    onClose();
+  };
+
   useEffect(() => {
     if (!isOpen) return;
 
@@ -80,7 +91,7 @@ export default function HandLoggerModal({
         action_taken: action,
         result: result,
       });
-      onClose();
+      handleClose();
     } catch (error) {
       console.error("Error saving hand:", error);
       let errorMessage = "Unknown error";
@@ -107,7 +118,7 @@ export default function HandLoggerModal({
   return (
     <div
       className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
-      onClick={onClose}
+      onClick={handleClose}
     >
       <div
         className="bg-gray-800/95 backdrop-blur-lg border-2 border-yellow-400 p-6 rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto shadow-2xl"
@@ -116,7 +127,7 @@ export default function HandLoggerModal({
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold text-yellow-400">Log Hand</h2>
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="p-2 hover:bg-gray-700 rounded transition-colors"
           >
             <X className="w-6 h-6 text-white" />
