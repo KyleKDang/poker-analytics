@@ -20,7 +20,7 @@ interface Session {
 
 const POSITIONS = ["early", "middle", "late"];
 const ACTIONS = ["fold", "call", "raise", "check"];
-const RESULTS = ["win", "loss", "tie"];
+const RESULTS = ["win", "tie", "loss"];
 
 export default function HandLoggerModal({
   isOpen,
@@ -209,12 +209,12 @@ export default function HandLoggerModal({
                         ? "bg-green-600 text-white ring-2 ring-yellow-400"
                         : r === "loss"
                           ? "bg-red-600 text-white ring-2 ring-yellow-400"
-                          : "bg-gray-600 text-white ring-2 ring-yellow-400"
+                          : "bg-blue-600 text-white ring-2 ring-yellow-400"
                       : r === "win"
                         ? "bg-green-600/50 text-white hover:bg-green-600/70"
                         : r === "loss"
                           ? "bg-red-600/50 text-white hover:bg-red-600/70"
-                          : "bg-gray-600/50 text-white hover:bg-gray-600/70"
+                          : "bg-blue-600/50 text-white hover:bg-blue-600/70"
                   }`}
                 >
                   {r.charAt(0).toUpperCase() + r.slice(1)}
