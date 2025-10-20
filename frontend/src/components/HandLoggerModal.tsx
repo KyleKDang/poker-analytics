@@ -19,7 +19,7 @@ interface Session {
 }
 
 const POSITIONS = ["early", "middle", "late"];
-const ACTIONS = ["fold", "call", "raise", "check"];
+const ACTIONS = ["fold", "check", "call", "raise"];
 const RESULTS = ["win", "tie", "loss"];
 
 export default function HandLoggerModal({
