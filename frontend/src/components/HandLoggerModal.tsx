@@ -237,6 +237,14 @@ export default function HandLoggerModal({
               <span className="font-semibold">Position:</span>{" "}
               {position.charAt(0).toUpperCase() + position.slice(1)}
             </p>
+            <p className="text-white text-sm">
+              <span className="font-semibold">Action:</span>{" "}
+              {action.charAt(0).toUpperCase() + action.slice(1)}
+            </p>
+            <p className="text-white text-sm">
+              <span className="font-semibold">Result:</span>{" "}
+              {result.charAt(0).toUpperCase() + result.slice(1)}
+            </p>
           </div>
 
           {/* Save Button */}
