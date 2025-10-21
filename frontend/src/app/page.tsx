@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import {
   DndContext,
   DragEndEvent,
@@ -27,6 +28,8 @@ const suits = ["S", "H", "D", "C"];
 const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"];
 
 export default function HomePage() {
+  const router = useRouter();
+
   const [deck, setDeck] = useState<string[]>([]);
   const [holeCards, setHoleCards] = useState<string[]>([]);
   const [boardCards, setBoardCards] = useState<string[]>([]);
@@ -36,6 +39,7 @@ export default function HomePage() {
 
   const [activeCard, setActiveCard] = useState<string | null>(null);
   const [showLogger, setShowLogger] = useState(false);
+  const [showAuthMessage, setShowAuthMessage] = useState(false);
 
   useEffect(() => {
     setDeck(suits.flatMap((s) => ranks.map((r) => r + s)));
@@ -125,6 +129,18 @@ export default function HomePage() {
     }
   };
 
+  const handleLogHand = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      if (!showAuthMessage) {
+        setShowAuthMessage(true);
+        setTimeout(() => setShowAuthMessage(false), 3000);
+      }
+      return;
+    }
+    setShowLogger(true);
+  };
+
   return (
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       <div className="flex items-center h-[calc(100vh-73px)] p-6 bg-green-900">
@@ -170,7 +186,7 @@ export default function HomePage() {
                 Calculate Odds
               </button>
               <button
-                onClick={() => setShowLogger(true)}
+                onClick={handleLogHand}
                 disabled={holeCards.length !== 2 || boardCards.length < 3}
                 className="flex-1 px-4 py-2 bg-gradient-to-br from-yellow-300 to-yellow-400 text-gray-900 font-bold rounded-lg hover:from-yellow-200 hover:to-yellow-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-yellow-400/50 hover:scale-[1.02]"
               >
@@ -186,6 +202,12 @@ export default function HomePage() {
           </div>
         </div>
       </div>
+
+      {showAuthMessage && (
+        <div className="fixed bottom-4 right-4 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg z-50">
+          Please log in to save hands
+        </div>
+      )}
 
       <HandLoggerModal
         isOpen={showLogger}
