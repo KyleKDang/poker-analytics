@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import {
   DndContext,
   DragEndEvent,
@@ -28,8 +27,6 @@ const suits = ["S", "H", "D", "C"];
 const ranks = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"];
 
 export default function HomePage() {
-  const router = useRouter();
-
   const [deck, setDeck] = useState<string[]>([]);
   const [holeCards, setHoleCards] = useState<string[]>([]);
   const [boardCards, setBoardCards] = useState<string[]>([]);
