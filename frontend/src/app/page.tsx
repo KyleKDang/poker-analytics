@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Loader2 } from "lucide-react";
 import {
   DndContext,
   DragEndEvent,
@@ -37,6 +38,7 @@ export default function HomePage() {
   const [activeCard, setActiveCard] = useState<string | null>(null);
   const [showLogger, setShowLogger] = useState(false);
   const [showAuthMessage, setShowAuthMessage] = useState(false);
+  const [isCalculating, setIsCalculating] = useState(false);
 
   useEffect(() => {
     setDeck(suits.flatMap((s) => ranks.map((r) => r + s)));
@@ -114,6 +116,7 @@ export default function HomePage() {
   };
 
   const calculateOdds = async () => {
+    setIsCalculating(true);
     try {
       const response = await api.post("/analytics/odds", {
         hole_cards: holeCards,
@@ -123,6 +126,8 @@ export default function HomePage() {
       setOdds(response.data);
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsCalculating(false);
     }
   };
 
@@ -167,7 +172,11 @@ export default function HomePage() {
 
           {/* Top Right: Results Panel */}
           <div className="grid grid-rows-[1fr_auto] h-full p-4 rounded-lg bg-green-800/40">
-            <ResultsPanel handRank={handRank} odds={odds} />
+            <ResultsPanel
+              handRank={handRank}
+              odds={odds}
+              isCalculating={isCalculating}
+            />
 
             <div className="flex gap-4 mt-6">
               <button
@@ -178,9 +187,10 @@ export default function HomePage() {
               </button>
               <button
                 onClick={calculateOdds}
+                disabled={isCalculating}
                 className="flex-1 px-4 py-2 bg-gradient-to-br from-yellow-300 to-yellow-400 text-gray-900 font-bold rounded-lg hover:from-yellow-200 hover:to-yellow-300 transition-all shadow-lg hover:shadow-yellow-400/50 hover:scale-[1.02]"
               >
-                Calculate Odds
+                {isCalculating ? "Calculating..." : "Calculate Odds"}
               </button>
               <button
                 onClick={handleLogHand}
