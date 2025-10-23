@@ -151,15 +151,21 @@ export default function HomePage() {
           {/* Top Left: Droppable Areas */}
           <div className="p-4 rounded-lg bg-green-800/40">
             <div className="mb-4">
-              <label htmlFor="num-opponents">Opponents:</label>
+              <label
+                htmlFor="num-opponents"
+                className="block text-white font-semibold mb-2"
+              >
+                Number of Opponents:{" "}
+                <span className="text-yellow-400 text-xl">{numOpponents}</span>
+              </label>
               <input
                 id="num-opponents"
-                type="number"
+                type="range"
                 min={1}
                 max={9}
                 value={numOpponents}
                 onChange={(e) => setNumOpponents(Number(e.target.value))}
-                className="p-2 rounded text-black"
+                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-yellow-400"
               />
             </div>
 
