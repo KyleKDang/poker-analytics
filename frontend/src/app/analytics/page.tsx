@@ -111,10 +111,6 @@ export default function AnalyticsPage() {
 
   return (
     <div className="min-h-screen p-6 bg-green-900">
-      <h1 className="mb-6 text-4xl font-extrabold text-yellow-400 text-center">
-        Analytics Dashboard
-      </h1>
-
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Stats Cards */}
         <StatsCards stats={dashboardData.overall} />
