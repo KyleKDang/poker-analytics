@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from app.api.routes import analytics, hand, session, user, auth
+from app.api.routes import tools, analytics, hand, session, user, auth
 from app.db.session import create_db_and_tables, get_db_session
 from app.core.config import settings
 
@@ -28,6 +28,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(tools.router)
 app.include_router(analytics.router)
 app.include_router(hand.router)
 app.include_router(session.router)

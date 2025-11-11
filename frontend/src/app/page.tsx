@@ -104,7 +104,7 @@ export default function HomePage() {
 
   const evaluateHand = async () => {
     try {
-      const response = await api.post("/analytics/evaluate", {
+      const response = await api.post("/tools/evaluate", {
         hole_cards: holeCards,
         board_cards: boardCards,
       });
@@ -117,7 +117,7 @@ export default function HomePage() {
   const calculateOdds = async () => {
     setIsCalculating(true);
     try {
-      const response = await api.post("/analytics/odds", {
+      const response = await api.post("/tools/odds", {
         hole_cards: holeCards,
         board_cards: boardCards,
         num_opponents: numOpponents,
