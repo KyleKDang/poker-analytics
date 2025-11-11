@@ -2,25 +2,62 @@
 
 A poker analytics platform for hand evaluation, odds calculation, and session tracking.
 
-![Main Page](assets/main-page.png)
-
-![Hand Logger](assets/hand-logger.png)
+![Main Page](assets/analyzer-page.png)
 
 ![Sessions Page](assets/sessions-page.png)
 
+![Dashboard](assets/dashboard-page.png)
+
+
 ## Features
-- **Interactive Card Interface:** Drag-and-drop cards to simulate poker hands  
-- **Hand Evaluator:** Instant hand strength analysis  
-- **Odds Calculator:** Monte Carlo simulation for win/tie/loss probabilities against 1–9 opponents  
-- **User Authentication:** Secure JWT-based login and registration  
-- **Session Management:** Log and track hands with position, action, and result data  
-- **Hand History:** Review past hands organized by session  
+
+### Interactive Gameplay
+- **Interactive Card Interface:** Drag-and-drop cards to simulate real poker hands  
+- **Hand Evaluator:** Instant hand strength calculation (Texas Hold’em)  
+- **Odds Calculator:** Monte Carlo simulation to calculate win/tie/loss probabilities against 1–9 opponents  
+
+### User & Session Management
+- **User Authentication:** Secure JWT-based login and registration with password hashing (bcrypt)  
+- **Session Management:** Log and track hands including **hole cards, board cards, position, action, and result**  
+- **Hand History:** Review past hands organized by session with sortable/filterable tables  
+
+### Analytics Dashboard
+- **AnalyticsService:** Complete analytics engine with 10+ statistical methods  
+- **Protected Analytics Routes:** 8 FastAPI endpoints for fetching analytics data securely  
+- **Dashboard Visualizations:**
+  - **StatsCards:** 4 metric cards showing Win Rate, Hands Played, VPIP, Aggression Factor  
+  - **WinRateChart:** Line chart tracking win rate over time  
+  - **PositionChart:** Bar chart showing win rate by position (early/middle/late)  
+  - **ActionChart:** Pie chart showing action distribution (fold/check/call/raise)  
+  - **StyleProfile:** Playing style analysis with derived metrics  
+  - **SessionTable:** Performance of recent sessions  
+
+### Statistics Tracked
+- Win Rate, VPIP, Aggression Factor  
+- Position Analysis (early/middle/late)  
+- Action Patterns (fold/check/call/raise)  
+- Win Rate Over Time  
+- Session Performance  
+- Playing Style Profile  
+
 
 ## Tech Stack
-- **Frontend:** Next.js, React, TypeScript, Tailwind CSS  
-- **Backend:** FastAPI, SQLModel, PostgreSQL  
-- **Authentication:** JWT with bcrypt  
-- **Containerization:** Docker  
+
+### Frontend
+- Next.js + React + TypeScript  
+- Tailwind CSS for responsive UI  
+- Interactive charts: Recharts
+
+### Backend
+- Python + FastAPI + SQLModel  
+- PostgreSQL database  
+- JWT-based authentication with bcrypt for password security  
+- AnalyticsService: Comprehensive statistical engine  
+
+### Containerization
+- Dockerized for easy deployment  
+
+
 
 ## Running the Project
 
