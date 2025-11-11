@@ -13,12 +13,9 @@ interface StatsCardsProps {
     vpip: number;
     aggression_factor: number;
   };
-  style: {
-    style_rating: string;
-  };
 }
 
-export default function StatsCards({ stats, style }: StatsCardsProps) {
+export default function StatsCards({ stats }: StatsCardsProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       {/* Win Rate Card */}

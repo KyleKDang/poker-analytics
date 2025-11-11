@@ -72,10 +72,25 @@ export default function ActionChart({ data }: ActionChartProps) {
             borderRadius: "8px",
             color: "#F3F4F6",
           }}
-          formatter={(value: number, name: string, props: any) => [
-            `${value.toFixed(1)}% (${props.payload.count} hands)`,
-            "Distribution",
-          ]}
+          content={({ active, payload }) => {
+            if (active && payload && payload.length) {
+              const data = payload[0].payload;
+              return (
+                <div
+                  style={{
+                    backgroundColor: "#1F2937",
+                    border: "1px solid #374151",
+                    borderRadius: "8px",
+                    padding: "8px",
+                    color: "#F3F4F6",
+                  }}
+                >
+                  <p>{`${data.name}: ${data.value.toFixed(1)}% (${data.count} hands)`}</p>
+                </div>
+              );
+            }
+            return null;
+          }}
         />
         <Legend wrapperStyle={{ color: "#F3F4F6" }} iconType="circle" />
       </PieChart>

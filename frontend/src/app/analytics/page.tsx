@@ -10,9 +10,63 @@ import SessionTable from "@/components/analytics/SessionTable";
 import StatsCards from "@/components/analytics/StatsCards";
 import StyleProfile from "@/components/analytics/StyleProfile";
 
+interface DashboardData {
+  overall: {
+    total_hands: number;
+    win_rate: number;
+    wins: number;
+    losses: number;
+    ties: number;
+    total_sessions: number;
+    vpip: number;
+    aggression_factor: number;
+  };
+  positions: {
+    positions: Array<{
+      position: string;
+      total_hands: number;
+      wins: number;
+      losses: number;
+      ties: number;
+      win_rate: number;
+    }>;
+  };
+  actions: {
+    actions: Array<{
+      action: string;
+      total_hands: number;
+      wins: number;
+      losses: number;
+      ties: number;
+      win_rate: number;
+      distribution: number;
+    }>;
+  };
+  timeline: {
+    timeline: Array<{
+      hand_number: number;
+      date: string;
+      win_rate: number;
+      cumulative_wins: number;
+      cumulative_hands: number;
+    }>;
+  };
+  style: {
+    vpip: number;
+    aggression_factor: number;
+    fold_frequency: number;
+    raise_frequency: number;
+    tight_loose: string;
+    passive_aggressive: string;
+    style_rating: string;
+  };
+}
+
 export default function AnalyticsPage() {
   const [loading, setLoading] = useState(true);
-  const [dashboardData, setDashboardData] = useState<any>(null);
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(
+    null,
+  );
 
   useEffect(() => {
     fetchDashboardData();
@@ -41,9 +95,6 @@ export default function AnalyticsPage() {
   if (!dashboardData || dashboardData.overall.total_hands === 0) {
     return (
       <div className="min-h-screen p-6 bg-green-900">
-        <h1 className="mb-6 text-4xl font-extrabold text-yellow-400 text-center">
-          Analytics Dashboard
-        </h1>
         <div className="max-w-6xl mx-auto">
           <div className="bg-green-800/40 p-8 rounded-lg text-center">
             <p className="text-white text-xl mb-4">
@@ -66,7 +117,7 @@ export default function AnalyticsPage() {
 
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Stats Cards */}
-        <StatsCards stats={dashboardData.overall} style={dashboardData.style} />
+        <StatsCards stats={dashboardData.overall} />
 
         {/* Win Rate Over Time */}
         <div className="bg-green-800/40 p-6 rounded-lg">
