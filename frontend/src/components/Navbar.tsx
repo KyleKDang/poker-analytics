@@ -45,6 +45,19 @@ export default function Navbar() {
 
             {isLoggedIn && (
               <Link
+                href="/analytics"
+                className={`text-lg font-semibold transition-colors ${
+                  pathname === "/analytics"
+                    ? "text-yellow-400"
+                    : "text-gray-300 hover:text-yellow-400"
+                }`}
+              >
+                Analytics
+              </Link>
+            )}
+
+            {isLoggedIn && (
+              <Link
                 href="/sessions"
                 className={`text-lg font-semibold transition-colors ${
                   pathname === "/sessions"
