@@ -14,7 +14,7 @@ from app.core.deps import get_current_user
 router = APIRouter(prefix="/sessions", tags=["sessions"])
 
 
-@router.get("/", response_model=list[SessionRead])
+@router.get("", response_model=list[SessionRead])
 async def get_sessions(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db_session),
@@ -57,7 +57,7 @@ async def get_session(
     return poker_session
 
 
-@router.post("/", response_model=SessionRead, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=SessionRead, status_code=status.HTTP_201_CREATED)
 async def create_session(
     session_create: SessionCreate,
     current_user: User = Depends(get_current_user),

@@ -24,7 +24,7 @@ async def get_hand(hand_id: int, db: AsyncSession = Depends(get_db_session)):
     return hand
 
 
-@router.post("/", response_model=HandRead, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=HandRead, status_code=status.HTTP_201_CREATED)
 async def create_hand(
     hand_create: HandCreate, db: AsyncSession = Depends(get_db_session)
 ):
