@@ -1,4 +1,5 @@
 from contextlib import asynccontextmanager
+import os
 
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
@@ -18,7 +19,10 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title=settings.APP_NAME, lifespan=lifespan)
 
-origins = ["http://localhost:3000"]
+origins = [
+    "http://localhost:3000",
+    os.getenv("FRONTEND_URL", "https://main.d1alcm9fw9r50p.amplifyapp.com"),
+]
 
 app.add_middleware(
     CORSMiddleware,
